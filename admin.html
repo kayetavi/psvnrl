@@ -1,213 +1,140 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Admin Dashboard</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-
-<h1>Admin Dashboard</h1>
-<p>Only ADMIN can see this</p>
-<button onclick="logout()">Logout</button>
-
-<hr>
-
-<!-- ADD PSV -->
-<h2>Add PSV</h2>
-<input id="tag_no" placeholder="Tag No">
-<input id="set_pressure" placeholder="Set Pressure">
-<input id="service" placeholder="Service">
-<button onclick="addPSV()">Add PSV</button>
-
-<hr>
-
-<!-- PSV LIST -->
-<h2>PSV List</h2>
-<div id="psvList"></div>
-
-<hr>
-
-<!-- DASHBOARD -->
-<h2>PSV Service Chart</h2>
-<canvas id="chart" width="300"></canvas>
-
-<script>
-/* =====================
-   SUPABASE CLIENT
-===================== */
-const supabaseClient = supabase.createClient(
+<!DOCTYPE html>  <html>  
+<head>  
+  <title>Admin Dashboard</title>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  </head>  
+<body>  <h1>Admin Dashboard</h1>  
+<p>Only ADMIN can see this</p>  
+<button onclick="logout()">Logout</button>  <hr>  <!-- ADD PSV -->  <h2>Add PSV</h2>  
+<input id="tag_no" placeholder="Tag No">  
+<input id="set_pressure" placeholder="Set Pressure">  
+<input id="service" placeholder="Service">  
+<button onclick="addPSV()">Add PSV</button>  <hr>  <!-- PSV LIST -->  <h2>PSV List</h2>  
+<div id="psvList"></div>  <hr>  <!-- DASHBOARD -->  <h2>PSV Service Chart</h2>  
+<canvas id="chart" width="300"></canvas>  <script>  
+/* =====================  
+   SUPABASE CLIENT  
+===================== */  
+const supabaseClient = supabase.createClient(  
   "https://qkpbggwaxnjwqdmqbbpz.supabase.co",  
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrcGJnZ3dheG5qd3FkbXFiYnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0ODA5MzksImV4cCI6MjA4MjA1NjkzOX0.qqHPESSXRgP0FECZBReJvKmJKigkzHoXbEU3s7XvJSA"  
 );  
-
-/* =====================
-   ADMIN PROTECTION
-===================== */
-async function protectAdmin() {
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  if (!session) return location.href = "index.html";
-
-  const { data, error } = await supabaseClient
-    .from("profiles")
-    .select("role")
-    .eq("id", session.user.id)
-    .single();
-
-  if (error || data.role !== "admin") {
-    alert("Access Denied");
-    await supabaseClient.auth.signOut();
-    location.href = "index.html";
-  }
-}
-protectAdmin();
-
-/* =====================
-   LOGOUT
-===================== */
-async function logout() {
-  await supabaseClient.auth.signOut();
-  location.href = "index.html";
-}
-
-/* =====================
-   ADD PSV
-===================== */
-async function addPSV() {
-  const tag = tag_no.value.trim();
-  const pressure = set_pressure.value.trim();
-  const srv = service.value.trim();
-
-  if (!tag || !pressure || !srv) {
-    alert("Fill all fields");
-    return;
-  }
-
-  const { error } = await supabaseClient
-    .from("psv_data")
-    .insert({
-      tag_no: tag,
-      set_pressure: pressure,
-      service: srv
-    });
-
-  if (error) {
-    alert(error.message);
-  } else {
-    alert("✅ PSV Added");
-    tag_no.value = set_pressure.value = service.value = "";
-    loadPSV();
-    loadChart();
-  }
-}
-
-/* =====================
-   LOAD PSV LIST
-===================== */
-async function loadPSV() {
-  const { data, error } = await supabaseClient
-    .from("psv_data")
-    .select("*")
-    .order("id", { ascending: false });
-
-  if (error) return alert(error.message);
-
-  psvList.innerHTML = "";
-
-  data.forEach(psv => {
-    psvList.innerHTML += `
-      <div style="margin-bottom:6px">
-        <b>${psv.tag_no}</b> |
-        ${psv.set_pressure} |
-        ${psv.service}
-        <button onclick="editPSV(${psv.id}, '${psv.tag_no}', '${psv.set_pressure}', '${psv.service}')">✏️</button>
-        <button onclick="deletePSV(${psv.id})">❌</button>
-      </div>
-    `;
-  });
-}
-
-/* =====================
-   EDIT PSV (ADMIN ONLY)
-===================== */
-async function editPSV(id, tag, pressure, service) {
-  const newTag = prompt("Tag No", tag);
-  const newPressure = prompt("Set Pressure", pressure);
-  const newService = prompt("Service", service);
-
-  if (!newTag || !newPressure || !newService) return;
-
-  const { error } = await supabaseClient
-    .from("psv_data")
-    .update({
-      tag_no: newTag,
-      set_pressure: newPressure,
-      service: newService
-    })
-    .eq("id", id);
-
-  if (error) {
-    alert(error.message);
-  } else {
-    alert("✅ PSV Updated");
-    loadPSV();
-    loadChart();
-  }
-}
-
-/* =====================
-   DELETE PSV
-===================== */
-async function deletePSV(id) {
-  if (!confirm("Delete this PSV?")) return;
-
-  const { error } = await supabaseClient
-    .from("psv_data")
-    .delete()
-    .eq("id", id);
-
-  if (error) alert(error.message);
-  else {
-    loadPSV();
-    loadChart();
-  }
-}
-
-/* =====================
-   SERVICE CHART
-===================== */
-let chartInstance;
-
-async function loadChart() {
-  const { data, error } = await supabaseClient
-    .from("psv_data")
-    .select("service");
-
-  if (error) return;
-
-  const counts = {};
-  data.forEach(row => {
-    counts[row.service] = (counts[row.service] || 0) + 1;
-  });
-
-  if (chartInstance) chartInstance.destroy();
-
-  chartInstance = new Chart(chart, {
-    type: "pie",
-    data: {
-      labels: Object.keys(counts),
-      datasets: [{
-        data: Object.values(counts)
-      }]
-    }
-  });
-}
-
-/* INIT */
-loadPSV();
-loadChart();
-</script>
-
-</body>
-</html>
+  
+/* =====================  
+   ADMIN PROTECTION  
+===================== */  
+async function protectAdmin() {  
+  const { data: { session } } = await supabaseClient.auth.getSession();  
+  if (!session) return location.href = "index.html";  
+  
+  const { data } = await supabaseClient  
+    .from("profiles")  
+    .select("role")  
+    .eq("id", session.user.id)  
+    .single();  
+  
+  if (data.role !== "admin") {  
+    alert("Access Denied");  
+    await supabaseClient.auth.signOut();  
+    location.href = "index.html";  
+  }  
+}  
+protectAdmin();  
+  
+/* =====================  
+   LOGOUT  
+===================== */  
+async function logout() {  
+  await supabaseClient.auth.signOut();  
+  location.href = "index.html";  
+}  
+  
+/* =====================  
+   ADD PSV  
+===================== */  
+async function addPSV() {  
+  const tagNo = document.getElementById("tag_no").value;  
+  const setPressure = document.getElementById("set_pressure").value;  
+  const service = document.getElementById("service").value;  
+  
+  const { error } = await supabaseClient  
+    .from("psv_data")  
+    .insert([{  
+      tag_no: tagNo,  
+      set_pressure: setPressure,  
+      service: service  
+    }]);  
+  
+  if (error) {  
+    alert(error.message);  
+  } else {  
+    alert("✅ PSV Added");  
+    tag_no.value = set_pressure.value = service.value = "";  
+    loadPSV();  
+    loadChart();  
+  }  
+}  
+  
+/* =====================  
+   LOAD PSV LIST  
+===================== */  
+async function loadPSV() {  
+  const { data } = await supabaseClient  
+    .from("psv_data")  
+    .select("*")  
+    .order("id", { ascending: false });  
+  
+  const list = document.getElementById("psvList");  
+  list.innerHTML = "";  
+  
+  data.forEach(psv => {  
+    list.innerHTML += `  
+      <div>  
+        <b>${psv.tag_no}</b> | ${psv.set_pressure} | ${psv.service}  
+        <button onclick="deletePSV(${psv.id})">❌</button>  
+      </div>  
+    `;  
+  });  
+}  
+  
+/* =====================  
+   DELETE PSV  
+===================== */  
+async function deletePSV(id) {  
+  if (!confirm("Delete this PSV?")) return;  
+  await supabaseClient.from("psv_data").delete().eq("id", id);  
+  loadPSV();  
+  loadChart();  
+}  
+  
+/* =====================  
+   SERVICE CHART  
+===================== */  
+let chartInstance;  
+  
+async function loadChart() {  
+  const { data } = await supabaseClient  
+    .from("psv_data")  
+    .select("service");  
+  
+  const counts = {};  
+  data.forEach(d => {  
+    counts[d.service] = (counts[d.service] || 0) + 1;  
+  });  
+  
+  if (chartInstance) chartInstance.destroy();  
+  
+  chartInstance = new Chart(document.getElementById("chart"), {  
+    type: "pie",  
+    data: {  
+      labels: Object.keys(counts),  
+      datasets: [{  
+        data: Object.values(counts)  
+      }]  
+    }  
+  });  
+}  
+  
+/* INIT */  
+loadPSV();  
+loadChart();  
+</script>  </body>  
+</html>  
