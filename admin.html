@@ -1,11 +1,16 @@
-<button onclick="add()">Add PSV</button>
+<h1>Admin Dashboard</h1>
+<p>You are ADMIN</p>
+<button onclick="logout()">Logout</button>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabase = supabase.createClient("URL","KEY");
+const supabase = supabase.createClient(
+  "https://qkpbggwaxnjwqdmqbbpz.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrcGJnZ3dheG5qd3FkbXFiYnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0ODA5MzksImV4cCI6MjA4MjA1NjkzOX0.qqHPESSXRgP0FECZBReJvKmJKigkzHoXbEU3s7XvJSA"
+);
 
-async function add() {
-  await supabase.from("psv_data").insert([{ tag_no: "PSV-101" }]);
-  alert("Done");
+async function logout() {
+  await supabase.auth.signOut();
+  window.location.href = "login.html";
 }
 </script>
