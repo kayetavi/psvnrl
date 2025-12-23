@@ -39,7 +39,7 @@
 ===================== */
 const supabaseClient = supabase.createClient(
   "https://qkpbggwaxnjwqdmqbbpz.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrcGJnZ3dheG5qd3FkbXFiYnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0ODA5MzksImV4cCI6MjA4MjA1NjkzOX0.qqHPESSXRgP0FECZBReJvKmJKigkzHoXbEU3s7XvJSA"
+  "YOUR_ANON_KEY"
 );
 
 /* =====================
@@ -49,13 +49,13 @@ async function protectAdmin() {
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (!session) return location.href = "index.html";
 
-  const { data } = await supabaseClient
+  const { data, error } = await supabaseClient
     .from("profiles")
     .select("role")
     .eq("id", session.user.id)
     .single();
 
-  if (data.role !== "admin") {
+  if (error || data.role !== "admin") {
     alert("Access Denied");
     await supabaseClient.auth.signOut();
     location.href = "index.html";
@@ -75,17 +75,22 @@ async function logout() {
    ADD PSV
 ===================== */
 async function addPSV() {
-  const tagNo = document.getElementById("tag_no").value;
-  const setPressure = document.getElementById("set_pressure").value;
-  const service = document.getElementById("service").value;
+  const tag = tag_no.value.trim();
+  const pressure = set_pressure.value.trim();
+  const srv = service.value.trim();
+
+  if (!tag || !pressure || !srv) {
+    alert("Fill all fields");
+    return;
+  }
 
   const { error } = await supabaseClient
     .from("psv_data")
-    .insert([{
-      tag_no: tagNo,
-      set_pressure: setPressure,
-      service: service
-    }]);
+    .insert({
+      tag_no: tag,
+      set_pressure: pressure,
+      service: srv
+    });
 
   if (error) {
     alert(error.message);
@@ -101,18 +106,22 @@ async function addPSV() {
    LOAD PSV LIST
 ===================== */
 async function loadPSV() {
-  const { data } = await supabaseClient
+  const { data, error } = await supabaseClient
     .from("psv_data")
     .select("*")
     .order("id", { ascending: false });
 
-  const list = document.getElementById("psvList");
-  list.innerHTML = "";
+  if (error) return alert(error.message);
+
+  psvList.innerHTML = "";
 
   data.forEach(psv => {
-    list.innerHTML += `
-      <div>
-        <b>${psv.tag_no}</b> | ${psv.set_pressure} | ${psv.service}
+    psvList.innerHTML += `
+      <div style="margin-bottom:6px">
+        <b>${psv.tag_no}</b> |
+        ${psv.set_pressure} |
+        ${psv.service}
+        <button onclick="editPSV(${psv.id}, '${psv.tag_no}', '${psv.set_pressure}', '${psv.service}')">✏️</button>
         <button onclick="deletePSV(${psv.id})">❌</button>
       </div>
     `;
@@ -120,13 +129,49 @@ async function loadPSV() {
 }
 
 /* =====================
+   EDIT PSV (ADMIN ONLY)
+===================== */
+async function editPSV(id, tag, pressure, service) {
+  const newTag = prompt("Tag No", tag);
+  const newPressure = prompt("Set Pressure", pressure);
+  const newService = prompt("Service", service);
+
+  if (!newTag || !newPressure || !newService) return;
+
+  const { error } = await supabaseClient
+    .from("psv_data")
+    .update({
+      tag_no: newTag,
+      set_pressure: newPressure,
+      service: newService
+    })
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+  } else {
+    alert("✅ PSV Updated");
+    loadPSV();
+    loadChart();
+  }
+}
+
+/* =====================
    DELETE PSV
 ===================== */
 async function deletePSV(id) {
   if (!confirm("Delete this PSV?")) return;
-  await supabaseClient.from("psv_data").delete().eq("id", id);
-  loadPSV();
-  loadChart();
+
+  const { error } = await supabaseClient
+    .from("psv_data")
+    .delete()
+    .eq("id", id);
+
+  if (error) alert(error.message);
+  else {
+    loadPSV();
+    loadChart();
+  }
 }
 
 /* =====================
@@ -135,18 +180,20 @@ async function deletePSV(id) {
 let chartInstance;
 
 async function loadChart() {
-  const { data } = await supabaseClient
+  const { data, error } = await supabaseClient
     .from("psv_data")
     .select("service");
 
+  if (error) return;
+
   const counts = {};
-  data.forEach(d => {
-    counts[d.service] = (counts[d.service] || 0) + 1;
+  data.forEach(row => {
+    counts[row.service] = (counts[row.service] || 0) + 1;
   });
 
   if (chartInstance) chartInstance.destroy();
 
-  chartInstance = new Chart(document.getElementById("chart"), {
+  chartInstance = new Chart(chart, {
     type: "pie",
     data: {
       labels: Object.keys(counts),
