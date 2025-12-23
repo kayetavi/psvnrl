@@ -18,12 +18,11 @@ const supabaseClient = supabase.createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrcGJnZ3dheG5qd3FkbXFiYnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0ODA5MzksImV4cCI6MjA4MjA1NjkzOX0.qqHPESSXRgP0FECZBReJvKmJKigkzHoXbEU3s7XvJSA"
 );
 
-
 async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
     email,
     password
   });
@@ -33,11 +32,16 @@ async function login() {
     return;
   }
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabaseClient
     .from("profiles")
     .select("role")
     .eq("id", data.user.id)
     .single();
+
+  if (profileError) {
+    alert(profileError.message);
+    return;
+  }
 
   if (profile.role === "admin") {
     window.location.href = "admin.html";
