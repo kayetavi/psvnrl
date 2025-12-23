@@ -1,22 +1,3 @@
-<!DOCTYPE html>  <html>  
-<head>  
-  <title>Admin Dashboard</title>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  </head>  
-<body>  <h1>Admin Dashboard</h1>  
-<p>Only ADMIN can see this</p>  
-<button onclick="logout()">Logout</button>  <hr>  <!-- ADD PSV -->  <h2>Add PSV</h2>  
-<input id="tag_no" placeholder="Tag No">  
-<input id="set_pressure" placeholder="Set Pressure">  
-<input id="service" placeholder="Service">  
-<button onclick="addPSV()">Add PSV</button>  <hr>  <!-- PSV LIST -->  <h2>PSV List</h2>  
-<div id="psvList"></div>  <hr>  <!-- DASHBOARD -->  <h2>PSV Service Chart</h2>  
-<canvas id="chart" width="300"></canvas>  <script>  
-/* =====================  
-   SUPABASE CLIENT  
-===================== */  
-const supabaseClient = supabase.createClient(  
-  "https://qkpbggwaxnjwqdmqbbpz.supabase.co",  
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrcGJnZ3dheG5qd3FkbXFiYnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0ODA5MzksImV4cCI6MjA4MjA1NjkzOX0.qqHPESSXRgP0FECZBReJvKmJKigkzHoXbEU3s7XvJSA"  
-);  
   <!DOCTYPE html>
 <html>
 <head>
