@@ -7,6 +7,13 @@ const supabaseClient = supabase.createClient(
 );
 
 /* =====================
+   GLOBAL VARS
+===================== */
+let psvCache = [];
+let sortDesc = true;
+let chartInstance;
+
+/* =====================
    ADMIN PROTECTION
 ===================== */
 async function protectAdmin() {
@@ -56,17 +63,20 @@ async function addPSV() {
       service: srv
     });
 
-  if (error) alert(error.message);
-  else {
+  if (error) {
+    alert(error.message);
+  } else {
     alert("✅ PSV Added");
-    tag_no.value = set_pressure.value = service.value = "";
+    tag_no.value = "";
+    set_pressure.value = "";
+    service.value = "";
     loadPSV();
     loadChart();
   }
 }
 
 /* =====================
-   LOAD PSV
+   LOAD PSV (MAIN)
 ===================== */
 async function loadPSV() {
   const { data } = await supabaseClient
@@ -74,6 +84,14 @@ async function loadPSV() {
     .select("*")
     .order("id", { ascending: false });
 
+  psvCache = data || [];
+  renderTable(psvCache);
+}
+
+/* =====================
+   RENDER TABLE
+===================== */
+function renderTable(data) {
   psvList.innerHTML = "";
 
   data.forEach(psv => {
@@ -88,15 +106,49 @@ async function loadPSV() {
       </tr>
     `;
   });
+
+  document.getElementById("totalCount").innerText = data.length;
 }
 
+/* =====================
+   SEARCH
+===================== */
+function filterPSV() {
+  const keyword = searchInput.value.toLowerCase();
+
+  const filtered = psvCache.filter(psv =>
+    psv.tag_no.toLowerCase().includes(keyword) ||
+    psv.service.toLowerCase().includes(keyword)
+  );
+
+  renderTable(filtered);
+}
+
+/* =====================
+   SORT BY PRESSURE
+===================== */
+function sortByPressure() {
+  const sorted = [...psvCache].sort((a, b) => {
+    const aP = parseFloat(a.set_pressure);
+    const bP = parseFloat(b.set_pressure);
+    return sortDesc ? bP - aP : aP - bP;
+  });
+
+  sortDesc = !sortDesc;
+  renderTable(sorted);
+}
 
 /* =====================
    DELETE PSV
 ===================== */
 async function deletePSV(id) {
   if (!confirm("Delete this PSV?")) return;
-  await supabaseClient.from("psv_data").delete().eq("id", id);
+
+  await supabaseClient
+    .from("psv_data")
+    .delete()
+    .eq("id", id);
+
   loadPSV();
   loadChart();
 }
@@ -104,36 +156,35 @@ async function deletePSV(id) {
 /* =====================
    CHART
 ===================== */
-let chartInstance;
-
 async function loadChart() {
   const { data } = await supabaseClient
     .from("psv_data")
     .select("service");
 
   const counts = {};
-  data.forEach(row => {
+  (data || []).forEach(row => {
     counts[row.service] = (counts[row.service] || 0) + 1;
   });
 
   if (chartInstance) chartInstance.destroy();
 
   chartInstance = new Chart(chart, {
-  type: "pie",
-  data: {
-    labels: Object.keys(counts),
-    datasets: [{
-      data: Object.values(counts)
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false   // ⭐ YAHI LINE IMPORTANT HAI
-  }
-});
-
+    type: "pie",
+    data: {
+      labels: Object.keys(counts),
+      datasets: [{
+        data: Object.values(counts)
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  });
 }
 
-/* INIT */
+/* =====================
+   INIT
+===================== */
 loadPSV();
 loadChart();
