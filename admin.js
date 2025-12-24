@@ -259,11 +259,8 @@ async function loadDashboardSummary() {
       }]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      }
+      plugins: { legend: { display: false } },
+      responsive: true
     }
   });
 
@@ -276,7 +273,6 @@ async function loadDashboardSummary() {
     else active++;
   });
 
-  // ✅ FIXED LINE
   if (statusChartInstance) statusChartInstance.destroy();
 
   statusChartInstance = new Chart(statusChart, {
@@ -286,16 +282,6 @@ async function loadDashboardSummary() {
       datasets: [{
         data: [active, dueSoon, overdue]
       }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "top",
-          align: "center"
-        }
-      }
     }
   });
 
@@ -331,7 +317,6 @@ async function loadDashboardSummary() {
     }
   });
 }
-
 
 /* =====================
    INIT
