@@ -43,7 +43,7 @@ async function logout() {
 }
 
 /* =====================
-   ADD PSV FORM TOGGLE (NEW – UI ONLY)
+   ADD PSV FORM TOGGLE
 ===================== */
 function toggleAddPSV() {
   const form = document.getElementById("addPsvForm");
@@ -52,7 +52,30 @@ function toggleAddPSV() {
 }
 
 /* =====================
-   ADD PSV (LOGIC SAME)
+   VIEW ALL PSV TOGGLE ✅ NEW
+===================== */
+function togglePSVSection() {
+  const section = document.getElementById("psvSection");
+  if (!section) return;
+
+  const isHidden =
+    section.style.display === "none" || section.style.display === "";
+
+  section.style.display = isHidden ? "block" : "none";
+
+  // Scroll only when opening
+  if (isHidden) {
+    setTimeout(() => {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }, 100);
+  }
+}
+
+/* =====================
+   ADD PSV
 ===================== */
 async function addPSV() {
   const payload = {
@@ -76,14 +99,12 @@ async function addPSV() {
     .insert(payload);
 
   if (error) {
-    console.error(error);
     alert("❌ " + error.message);
     return;
   }
 
   alert("✅ PSV Added Successfully");
 
-  // Clear fields
   unit.value = "";
   tag_no.value = "";
   set_pressure.value = "";
@@ -93,9 +114,7 @@ async function addPSV() {
   type.value = "";
   service.value = "";
 
-  // Hide form after save (UX improvement)
-  const form = document.getElementById("addPsvForm");
-  if (form) form.style.display = "none";
+  document.getElementById("addPsvForm").style.display = "none";
 
   loadPSV();
   loadChart();
@@ -111,7 +130,6 @@ async function loadPSV() {
     .order("id", { ascending: false });
 
   if (error) {
-    console.error(error);
     alert("❌ Failed to load PSV data");
     return;
   }
@@ -144,7 +162,7 @@ function renderTable(data) {
     `;
   });
 
-  document.getElementById("totalCount").innerText = data.length;
+  totalCount.innerText = data.length;
 }
 
 /* =====================
@@ -181,17 +199,14 @@ function sortByPressure() {
 async function deletePSV(id) {
   if (!confirm("Delete this PSV?")) return;
 
-  await supabaseClient
-    .from("psv_data")
-    .delete()
-    .eq("id", id);
+  await supabaseClient.from("psv_data").delete().eq("id", id);
 
   loadPSV();
   loadChart();
 }
 
 /* =====================
-   PIE CHART (SAME LOGIC)
+   PIE CHART
 ===================== */
 async function loadChart() {
   const { data } = await supabaseClient
@@ -210,9 +225,7 @@ async function loadChart() {
     type: "pie",
     data: {
       labels: Object.keys(counts),
-      datasets: [{
-        data: Object.values(counts)
-      }]
+      datasets: [{ data: Object.values(counts) }]
     },
     options: {
       responsive: true,
@@ -226,18 +239,3 @@ async function loadChart() {
 ===================== */
 loadPSV();
 loadChart();
-
-/* =====================
-   SCROLL TO PSV TABLE
-===================== */
-function scrollToPSVTable() {
-  const section = document.getElementById("psvSection");
-
-  if (section) {
-    section.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-}
-
