@@ -12,6 +12,8 @@ const supabaseClient = supabase.createClient(
 let psvCache = [];
 let sortDesc = true;
 let chartInstance;
+let unitChartInstance;
+let statusChartInstance;
 
 /* =====================
    ADMIN PROTECTION
@@ -52,7 +54,7 @@ function toggleAddPSV() {
 }
 
 /* =====================
-   VIEW ALL PSV TOGGLE ✅ NEW
+   VIEW ALL PSV TOGGLE
 ===================== */
 function togglePSVSection() {
   const section = document.getElementById("psvSection");
@@ -63,14 +65,10 @@ function togglePSVSection() {
 
   section.style.display = isHidden ? "block" : "none";
 
-  // Scroll only when opening
   if (isHidden) {
     setTimeout(() => {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }, 100);
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 120);
   }
 }
 
@@ -105,19 +103,14 @@ async function addPSV() {
 
   alert("✅ PSV Added Successfully");
 
-  unit.value = "";
-  tag_no.value = "";
-  set_pressure.value = "";
-  cdsp.value = "";
-  bp.value = "";
-  orifice.value = "";
-  type.value = "";
-  service.value = "";
+  document.querySelectorAll("#addPsvForm input")
+    .forEach(i => i.value = "");
 
   document.getElementById("addPsvForm").style.display = "none";
 
   loadPSV();
   loadChart();
+  loadDashboardSummary();
 }
 
 /* =====================
@@ -147,14 +140,14 @@ function renderTable(data) {
   data.forEach(psv => {
     psvList.innerHTML += `
       <tr>
-        <td>${psv.unit ?? "-"}</td>
-        <td>${psv.tag_no ?? "-"}</td>
-        <td>${psv.set_pressure ?? "-"}</td>
-        <td>${psv.cdsp ?? "-"}</td>
-        <td>${psv.bp ?? "-"}</td>
-        <td>${psv.orifice ?? "-"}</td>
-        <td>${psv.type ?? "-"}</td>
-        <td>${psv.service ?? "-"}</td>
+        <td>${psv.unit || "-"}</td>
+        <td>${psv.tag_no || "-"}</td>
+        <td>${psv.set_pressure || "-"}</td>
+        <td>${psv.cdsp || "-"}</td>
+        <td>${psv.bp || "-"}</td>
+        <td>${psv.orifice || "-"}</td>
+        <td>${psv.type || "-"}</td>
+        <td>${psv.service || "-"}</td>
         <td>
           <button onclick="deletePSV(${psv.id})">❌</button>
         </td>
@@ -199,14 +192,18 @@ function sortByPressure() {
 async function deletePSV(id) {
   if (!confirm("Delete this PSV?")) return;
 
-  await supabaseClient.from("psv_data").delete().eq("id", id);
+  await supabaseClient
+    .from("psv_data")
+    .delete()
+    .eq("id", id);
 
   loadPSV();
   loadChart();
+  loadDashboardSummary();
 }
 
 /* =====================
-   PIE CHART
+   SERVICE PIE CHART
 ===================== */
 async function loadChart() {
   const { data } = await supabaseClient
@@ -235,7 +232,95 @@ async function loadChart() {
 }
 
 /* =====================
+   DASHBOARD SUMMARY
+===================== */
+async function loadDashboardSummary() {
+  const { data } = await supabaseClient
+    .from("psv_data")
+    .select("*");
+
+  if (!data) return;
+
+  /* ---- UNIT OVERVIEW ---- */
+  const unitCount = {};
+  data.forEach(psv => {
+    if (!psv.unit) return;
+    unitCount[psv.unit] = (unitCount[psv.unit] || 0) + 1;
+  });
+
+  if (unitChartInstance) unitChartInstance.destroy();
+
+  unitChartInstance = new Chart(unitChart, {
+    type: "bar",
+    data: {
+      labels: Object.keys(unitCount),
+      datasets: [{
+        data: Object.values(unitCount)
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      responsive: true
+    }
+  });
+
+  /* ---- STATUS SUMMARY ---- */
+  let active = 0, dueSoon = 0, overdue = 0;
+
+  data.forEach(psv => {
+    if (psv.service?.toLowerCase().includes("flare")) overdue++;
+    else if (psv.service?.toLowerCase().includes("hc")) dueSoon++;
+    else active++;
+  });
+
+  if (statusChartInstance) statusChartInstance.destroy();
+
+  statusChartInstance = new Chart(statusChart, {
+    type: "pie",
+    data: {
+      labels: ["Active", "Due Soon", "Overdue"],
+      datasets: [{
+        data: [active, dueSoon, overdue]
+      }]
+    }
+  });
+
+  /* ---- ALERTS & DUE TABLE ---- */
+  alertList.innerHTML = "";
+  dueTable.innerHTML = "";
+
+  data.forEach(psv => {
+    if (!psv.tag_no) return;
+
+    let status = "Active";
+    if (psv.service?.toLowerCase().includes("flare")) status = "Overdue";
+    else if (psv.service?.toLowerCase().includes("hc")) status = "Due Soon";
+
+    if (status !== "Active") {
+      alertList.innerHTML += `
+        <li>⚠️ ${psv.tag_no} (${status})</li>
+      `;
+
+      dueTable.innerHTML += `
+        <tr>
+          <td>${psv.tag_no}</td>
+          <td>${psv.unit || "-"}</td>
+          <td>${psv.set_pressure || "-"}</td>
+          <td>${psv.service || "-"}</td>
+          <td>
+            <span class="badge ${status === "Overdue" ? "overdue" : "due"}">
+              ${status}
+            </span>
+          </td>
+        </tr>
+      `;
+    }
+  });
+}
+
+/* =====================
    INIT
 ===================== */
 loadPSV();
 loadChart();
+loadDashboardSummary();
