@@ -46,52 +46,68 @@ async function logout() {
    ADD PSV
 ===================== */
 async function addPSV() {
-  const tag = tag_no.value.trim();
-  const pressure = set_pressure.value.trim();
-  const srv = service.value.trim();
+  const payload = {
+    unit: unit.value.trim(),
+    tag_no: tag_no.value.trim(),
+    set_pressure: set_pressure.value.trim(),
+    cdsp: cdsp.value.trim(),
+    bp: bp.value.trim(),
+    orifice: orifice.value.trim(),
+    type: type.value.trim(),
+    service: service.value.trim()
+  };
 
-  if (!tag || !pressure || !srv) {
-    alert("Fill all fields");
+  // Basic required validation
+  if (!payload.tag_no || !payload.set_pressure || !payload.service) {
+    alert("⚠️ Tag No, Set Pressure and Service are required");
     return;
   }
 
   const { error } = await supabaseClient
     .from("psv_data")
-    .insert({
-      unit: unit.value,
-      tag_no: tag_no.value,
-      set_pressure: set_pressure.value,
-      cdsp: cdsp.value,
-      bp: bp.value,
-      orifice: orifice.value,
-      type: type.value,
-      service: service.value
-    });
+    .insert(payload);
 
   if (error) {
-    alert(error.message);
-  } else {
-    alert("✅ PSV Added");
-    tag_no.value = "";
-    set_pressure.value = "";
-    service.value = "";
-    loadPSV();
-    loadChart();
+    console.error(error);
+    alert("❌ " + error.message);
+    return;
   }
+
+  alert("✅ PSV Added Successfully");
+
+  // Clear all fields
+  unit.value = "";
+  tag_no.value = "";
+  set_pressure.value = "";
+  cdsp.value = "";
+  bp.value = "";
+  orifice.value = "";
+  type.value = "";
+  service.value = "";
+
+  loadPSV();
+  loadChart();
 }
 
 /* =====================
    LOAD PSV (MAIN)
 ===================== */
 async function loadPSV() {
-  const { data } = await supabaseClient
+  const { data, error } = await supabaseClient
     .from("psv_data")
     .select("*")
     .order("id", { ascending: false });
 
+  if (error) {
+    console.error(error);
+    alert("❌ Failed to load PSV data");
+    return;
+  }
+
   psvCache = data || [];
   renderTable(psvCache);
 }
+
 
 /* =====================
    RENDER TABLE
@@ -102,9 +118,14 @@ function renderTable(data) {
   data.forEach(psv => {
     psvList.innerHTML += `
       <tr>
-        <td>${psv.tag_no}</td>
-        <td>${psv.set_pressure}</td>
-        <td>${psv.service}</td>
+        <td>${psv.unit ?? "-"}</td>
+        <td>${psv.tag_no ?? "-"}</td>
+        <td>${psv.set_pressure ?? "-"}</td>
+        <td>${psv.cdsp ?? "-"}</td>
+        <td>${psv.bp ?? "-"}</td>
+        <td>${psv.orifice ?? "-"}</td>
+        <td>${psv.type ?? "-"}</td>
+        <td>${psv.service ?? "-"}</td>
         <td>
           <button onclick="deletePSV(${psv.id})">❌</button>
         </td>
@@ -114,6 +135,7 @@ function renderTable(data) {
 
   document.getElementById("totalCount").innerText = data.length;
 }
+
 
 /* =====================
    SEARCH
