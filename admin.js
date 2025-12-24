@@ -78,13 +78,18 @@ async function loadPSV() {
 
   data.forEach(psv => {
     psvList.innerHTML += `
-      <div>
-        <b>${psv.tag_no}</b> | ${psv.set_pressure} | ${psv.service}
-        <button onclick="deletePSV(${psv.id})">❌</button>
-      </div>
+      <tr>
+        <td>${psv.tag_no}</td>
+        <td>${psv.set_pressure}</td>
+        <td>${psv.service}</td>
+        <td>
+          <button onclick="deletePSV(${psv.id})">❌</button>
+        </td>
+      </tr>
     `;
   });
 }
+
 
 /* =====================
    DELETE PSV
