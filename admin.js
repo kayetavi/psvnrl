@@ -277,9 +277,9 @@ unitChartInstance = new Chart(unitChart, {
     else active++;
   });
 
-  if (statusChartInstance) statusChartInstance.destroy();
+  if () .destroy();
 
- statusChartInstance = new Chart(statusChart, {
+statusChartInstance = new Chart(statusChart, {
   type: "pie",
   data: {
     labels: ["Active", "Due Soon", "Overdue"],
@@ -289,9 +289,16 @@ unitChartInstance = new Chart(unitChart, {
   },
   options: {
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,   // 👈 MUST
+    plugins: {
+      legend: {
+        position: "top",          // 👈 CLEAN ALIGNMENT
+        align: "center"
+      }
+    }
   }
 });
+
 
 
   /* ---- ALERTS & DUE TABLE ---- */
