@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <title>User Dashboard</title>
 
-  <!-- CSS (same admin css use karo) -->
+  <!-- CSS -->
   <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="user.css">
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -33,7 +34,16 @@
   <p><b>User Access</b></p>
   <hr>
 
-  <div id="psvList"></div>
+  <table class="psv-table">
+    <thead>
+      <tr>
+        <th>Tag No</th>
+        <th>Set Pressure</th>
+        <th>Service</th>
+      </tr>
+    </thead>
+    <tbody id="psvList"></tbody>
+  </table>
 
 </main>
 
@@ -42,48 +52,7 @@
   © 2025 PSV Management System | User Panel
 </footer>
 
-<!-- ================= JS ================= -->
-<script>
-const supabaseClient = supabase.createClient(
-  "https://qkpbggwaxnjwqdmqbbpz.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrcGJnZ3dheG5qd3FkbXFiYnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0ODA5MzksImV4cCI6MjA4MjA1NjkzOX0.qqHPESSXRgP0FECZBReJvKmJKigkzHoXbEU3s7XvJSA"
-);
-
-async function protectUser() {
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  if (!session) location.href = "index.html";
-}
-protectUser();
-
-async function loadPSV() {
-  const { data, error } = await supabaseClient
-    .from("psv_data")
-    .select("tag_no,set_pressure,service")
-    .order("id", { ascending: false });
-
-  if (error) return alert(error.message);
-
-  const list = document.getElementById("psvList");
-  list.innerHTML = "";
-
-  data.forEach(psv => {
-    list.innerHTML += `
-      <div class="card">
-        <b>${psv.tag_no}</b><br>
-        Set Pressure: ${psv.set_pressure}<br>
-        Service: ${psv.service}
-      </div>
-    `;
-  });
-}
-
-async function logout() {
-  await supabaseClient.auth.signOut();
-  location.href = "index.html";
-}
-
-loadPSV();
-</script>
-
+<!-- JS -->
+<script src="user.js"></script>
 </body>
 </html>
