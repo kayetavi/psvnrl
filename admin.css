@@ -1,6 +1,10 @@
 /* ===============================
    GLOBAL
 ================================ */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -8,33 +12,36 @@ body {
 }
 
 /* ===============================
-   HEADER (ONLY THIS WILL APPLY)
+   HEADER (STICKY + CENTER TITLE)
 ================================ */
 .main-header {
   background: #0f172a;
   color: white;
-  padding: 8px 20px;
+  height: 60px;
+  padding: 0 20px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  position: fixed;          /* ✅ STICKY GUARANTEED */
+  position: fixed;        /* 🔥 STICKY */
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 9999;
+  z-index: 10000;
 
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
 }
 
 /* Logo */
 .header-left {
-  width: 60px;
+  display: flex;
+  align-items: center;
+  width: 70px;
 }
 
 .header-left img {
-  height: 24px;             /* ✅ LOGO SMALL */
+  height: 22px;           /* 🔥 SMALL LOGO */
   width: auto;
 }
 
@@ -43,19 +50,30 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
+  letter-spacing: 0.5px;
   white-space: nowrap;
 }
 
 /* Logout button */
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
 .header-right button {
   background: #ef4444;
   border: none;
   color: white;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
+}
+
+.header-right button:hover {
+  background: #dc2626;
 }
 
 /* ===============================
@@ -63,7 +81,7 @@ body {
 ================================ */
 main {
   padding: 20px 30px;
-  margin-top: 70px;   /* ✅ FIXED HEADER GAP */
+  margin-top: 60px;    /* 🔥 HEADER HEIGHT MATCH */
   min-height: calc(100vh - 120px);
 }
 
