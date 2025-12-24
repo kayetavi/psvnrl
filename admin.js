@@ -219,16 +219,24 @@ async function loadChart() {
   if (chartInstance) chartInstance.destroy();
 
   chartInstance = new Chart(chart, {
-    type: "pie",
-    data: {
-      labels: Object.keys(counts),
-      datasets: [{ data: Object.values(counts) }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false
+  type: "pie",
+  data: {
+    labels: Object.keys(counts),
+    datasets: [{
+      data: Object.values(counts)
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom"
+      }
     }
-  });
+  }
+});
+
 }
 
 /* =====================
@@ -251,18 +259,22 @@ async function loadDashboardSummary() {
   if (unitChartInstance) unitChartInstance.destroy();
 
   unitChartInstance = new Chart(unitChart, {
-    type: "bar",
-    data: {
-      labels: Object.keys(unitCount),
-      datasets: [{
-        data: Object.values(unitCount)
-      }]
-    },
-    options: {
-      plugins: { legend: { display: false } },
-      responsive: true
+  type: "bar",
+  data: {
+    labels: Object.keys(unitCount),
+    datasets: [{
+      data: Object.values(unitCount)
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false }
     }
-  });
+  }
+});
+
 
   /* ---- STATUS SUMMARY ---- */
   let active = 0, dueSoon = 0, overdue = 0;
@@ -276,14 +288,24 @@ async function loadDashboardSummary() {
   if (statusChartInstance) statusChartInstance.destroy();
 
   statusChartInstance = new Chart(statusChart, {
-    type: "pie",
-    data: {
-      labels: ["Active", "Due Soon", "Overdue"],
-      datasets: [{
-        data: [active, dueSoon, overdue]
-      }]
+  type: "pie",
+  data: {
+    labels: ["Active", "Due Soon", "Overdue"],
+    datasets: [{
+      data: [active, dueSoon, overdue]
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom"
+      }
     }
-  });
+  }
+});
+
 
   /* ---- ALERTS & DUE TABLE ---- */
   alertList.innerHTML = "";
