@@ -116,3 +116,17 @@
     padding: 10px;
   }
 }
+
+.col-search {
+  width: 100%;
+  margin-top: 6px;
+  padding: 5px 6px;
+  font-size: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+}
+
+.col-search:focus {
+  outline: none;
+  border-color: #0f172a;
+}
