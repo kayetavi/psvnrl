@@ -250,19 +250,23 @@ async function loadDashboardSummary() {
 
   if (unitChartInstance) unitChartInstance.destroy();
 
-  unitChartInstance = new Chart(unitChart, {
-    type: "bar",
-    data: {
-      labels: Object.keys(unitCount),
-      datasets: [{
-        data: Object.values(unitCount)
-      }]
-    },
-    options: {
-      plugins: { legend: { display: false } },
-      responsive: true
+unitChartInstance = new Chart(unitChart, {
+  type: "bar",
+  data: {
+    labels: Object.keys(unitCount),
+    datasets: [{
+      data: Object.values(unitCount)
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,   // 👈 YAHI ADD HUA
+    plugins: {
+      legend: { display: false }
     }
-  });
+  }
+});
+
 
   /* ---- STATUS SUMMARY ---- */
   let active = 0, dueSoon = 0, overdue = 0;
@@ -275,15 +279,20 @@ async function loadDashboardSummary() {
 
   if (statusChartInstance) statusChartInstance.destroy();
 
-  statusChartInstance = new Chart(statusChart, {
-    type: "pie",
-    data: {
-      labels: ["Active", "Due Soon", "Overdue"],
-      datasets: [{
-        data: [active, dueSoon, overdue]
-      }]
-    }
-  });
+ statusChartInstance = new Chart(statusChart, {
+  type: "pie",
+  data: {
+    labels: ["Active", "Due Soon", "Overdue"],
+    datasets: [{
+      data: [active, dueSoon, overdue]
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false
+  }
+});
+
 
   /* ---- ALERTS & DUE TABLE ---- */
   alertList.innerHTML = "";
