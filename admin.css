@@ -279,6 +279,13 @@ footer {
 /* ===============================
    DASHBOARD SUMMARY
 ================================ */
+.dashboard-summary .card canvas {
+  max-width: 180px;
+  max-height: 180px;
+  margin: 0 auto;
+  display: block;
+}
+
 .dashboard-summary {
   margin: 30px 0;
 }
