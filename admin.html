@@ -34,7 +34,6 @@
 
   <!-- ===== TOP ACTION BUTTONS ===== -->
   <div class="top-actions">
-
     <div class="add-psv-card" onclick="toggleAddPSV()">
       <div class="plus-icon">+</div>
       <span>Add New PSV</span>
@@ -44,11 +43,10 @@
       <div class="list-icon">≡</div>
       <span>View All PSV</span>
     </div>
-
   </div>
 
   <!-- ===== ADD PSV FORM ===== -->
-  <div id="addPsvForm" class="add-psv-form" style="display:none;">
+  <div id="addPsvForm" class="add-psv-form">
     <h2>Add PSV</h2>
 
     <input id="unit" placeholder="Unit">
@@ -71,16 +69,20 @@
 
     <div class="summary-row">
 
-      <!-- UNIT OVERVIEW -->
+      <!-- UNIT OVERVIEW BAR CHART -->
       <div class="card">
         <h3>PSV Units Overview</h3>
-        <canvas id="unitChart"></canvas>
+        <div class="chart-box unit-chart-box">
+          <canvas id="dashboardUnitChart"></canvas>
+        </div>
       </div>
 
-      <!-- STATUS SUMMARY -->
+      <!-- STATUS SUMMARY PIE CHART -->
       <div class="card">
         <h3>PSV Status Summary</h3>
-        <canvas id="statusChart"></canvas>
+        <div class="chart-box">
+          <canvas id="statusChart"></canvas>
+        </div>
       </div>
 
       <!-- ALERTS -->
@@ -91,7 +93,7 @@
 
     </div>
 
-    <!-- DUE & OVERDUE -->
+    <!-- DUE & OVERDUE TABLE -->
     <div class="card full-width">
       <h3>Due & Overdue PSV</h3>
 
@@ -105,7 +107,6 @@
             <th>Status</th>
           </tr>
         </thead>
-
         <tbody id="dueTable"></tbody>
       </table>
     </div>
@@ -114,7 +115,7 @@
 
   <hr>
 
-  <!-- ================= PSV LIST + CHART ================= -->
+  <!-- ================= PSV LIST + SERVICE CHART ================= -->
   <div id="psvSection" style="display:none;">
 
     <h2>PSV List</h2>
@@ -156,9 +157,8 @@
 
     <h2>PSV Service Chart</h2>
     <div class="chart-box unit-chart-box">
-  <canvas id="unitChart"></canvas>
-</div>
-
+      <canvas id="serviceUnitChart"></canvas>
+    </div>
 
   </div>
 
