@@ -263,7 +263,9 @@ async function loadDashboardSummary() {
   data: {
     labels: Object.keys(unitCount),
     datasets: [{
-      data: Object.values(unitCount)
+      data: Object.values(unitCount),
+      backgroundColor: "#93c5fd",   // optional clean color
+      borderRadius: 6
     }]
   },
   options: {
@@ -271,9 +273,16 @@ async function loadDashboardSummary() {
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { stepSize: 1 }
+      }
     }
   }
 });
+
 
 
   /* ---- STATUS SUMMARY ---- */
@@ -297,7 +306,7 @@ async function loadDashboardSummary() {
   },
   options: {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     plugins: {
       legend: {
         position: "bottom"
