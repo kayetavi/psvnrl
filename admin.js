@@ -250,23 +250,22 @@ async function loadDashboardSummary() {
 
   if (unitChartInstance) unitChartInstance.destroy();
 
-unitChartInstance = new Chart(unitChart, {
-  type: "bar",
-  data: {
-    labels: Object.keys(unitCount),
-    datasets: [{
-      data: Object.values(unitCount)
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,   // 👈 YAHI ADD HUA
-    plugins: {
-      legend: { display: false }
+  unitChartInstance = new Chart(unitChart, {
+    type: "bar",
+    data: {
+      labels: Object.keys(unitCount),
+      datasets: [{
+        data: Object.values(unitCount)
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      }
     }
-  }
-});
-
+  });
 
   /* ---- STATUS SUMMARY ---- */
   let active = 0, dueSoon = 0, overdue = 0;
@@ -277,29 +276,28 @@ unitChartInstance = new Chart(unitChart, {
     else active++;
   });
 
-  if () .destroy();
+  // ✅ FIXED LINE
+  if (statusChartInstance) statusChartInstance.destroy();
 
-statusChartInstance = new Chart(statusChart, {
-  type: "pie",
-  data: {
-    labels: ["Active", "Due Soon", "Overdue"],
-    datasets: [{
-      data: [active, dueSoon, overdue]
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,   // 👈 MUST
-    plugins: {
-      legend: {
-        position: "top",          // 👈 CLEAN ALIGNMENT
-        align: "center"
+  statusChartInstance = new Chart(statusChart, {
+    type: "pie",
+    data: {
+      labels: ["Active", "Due Soon", "Overdue"],
+      datasets: [{
+        data: [active, dueSoon, overdue]
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "top",
+          align: "center"
+        }
       }
     }
-  }
-});
-
-
+  });
 
   /* ---- ALERTS & DUE TABLE ---- */
   alertList.innerHTML = "";
@@ -333,6 +331,7 @@ statusChartInstance = new Chart(statusChart, {
     }
   });
 }
+
 
 /* =====================
    INIT
