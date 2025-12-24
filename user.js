@@ -118,6 +118,38 @@ function renderTable(data) {
 }
 
 /* ============================
+   COLUMN-WISE SEARCH
+============================ */
+
+let filteredData = [];
+
+document.addEventListener("input", function (e) {
+  if (e.target.classList.contains("col-search")) {
+    applyColumnFilter();
+  }
+});
+
+function applyColumnFilter() {
+  const inputs = document.querySelectorAll(".col-search");
+
+  filteredData = allPSVData.filter(row => {
+    return Array.from(inputs).every(input => {
+      const col = input.dataset.col;
+      const val = input.value.toLowerCase().trim();
+
+      if (!val) return true;
+
+      return String(row[col] ?? "")
+        .toLowerCase()
+        .includes(val);
+    });
+  });
+
+  renderTable(filteredData);
+}
+
+
+/* ============================
    LOGOUT
 ============================ */
 async function logout() {
