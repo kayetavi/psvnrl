@@ -10,6 +10,9 @@
   <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Excel Upload Library -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -45,6 +48,24 @@
       <span>View All PSV</span>
     </div>
 
+    <!-- ⚙️ SETTINGS / EXCEL UPLOAD -->
+    <div class="settings-wrapper">
+      <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+
+      <div id="settingsMenu" class="settings-menu" style="display:none;">
+        <label class="upload-label">
+          📤 Upload PSV (Excel)
+          <input
+            type="file"
+            id="excelUpload"
+            accept=".xlsx,.xls"
+            onchange="uploadExcel()"
+            hidden
+          >
+        </label>
+      </div>
+    </div>
+
   </div>
 
   <!-- ===== ADD PSV FORM ===== -->
@@ -71,19 +92,16 @@
 
     <div class="summary-row">
 
-      <!-- UNIT OVERVIEW -->
       <div class="card">
         <h3>PSV Units Overview</h3>
         <canvas id="unitChart"></canvas>
       </div>
 
-      <!-- STATUS SUMMARY -->
       <div class="card">
         <h3>PSV Status Summary</h3>
         <canvas id="statusChart"></canvas>
       </div>
 
-      <!-- ALERTS -->
       <div class="card alerts">
         <h3>Alerts</h3>
         <ul id="alertList"></ul>
@@ -91,7 +109,6 @@
 
     </div>
 
-    <!-- DUE & OVERDUE -->
     <div class="card full-width">
       <h3>Due & Overdue PSV</h3>
 
@@ -105,7 +122,6 @@
             <th>Status</th>
           </tr>
         </thead>
-
         <tbody id="dueTable"></tbody>
       </table>
     </div>
@@ -114,7 +130,7 @@
 
   <hr>
 
-  <!-- ================= PSV LIST + CHART ================= -->
+  <!-- ================= PSV LIST ================= -->
   <div id="psvSection" style="display:none;">
 
     <h2>PSV List</h2>
@@ -151,14 +167,6 @@
         <tbody id="psvList"></tbody>
       </table>
     </div>
-
-    <hr>
-
-    <h2>PSV Service Chart</h2>
-    <div class="chart-box unit-chart-box">
-  <canvas id="unitChart"></canvas>
-</div>
-
 
   </div>
 
