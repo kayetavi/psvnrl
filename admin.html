@@ -14,7 +14,7 @@
 
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 <header class="main-header">
   <div class="header-left">
     <img src="images/nrl-logo.png" class="logo">
@@ -27,21 +27,19 @@
   </div>
 </header>
 
-<!-- MAIN -->
+<!-- ================= MAIN ================= -->
 <main>
 
   <p><b>Only ADMIN can see this</b></p>
 
-  <!-- 🔹 TOP ACTION BUTTONS -->
+  <!-- ===== TOP ACTION BUTTONS ===== -->
   <div class="top-actions">
 
-    <!-- ADD PSV -->
     <div class="add-psv-card" onclick="toggleAddPSV()">
       <div class="plus-icon">+</div>
       <span>Add New PSV</span>
     </div>
 
-    <!-- VIEW ALL PSV -->
     <div class="view-psv-card" onclick="togglePSVSection()">
       <div class="list-icon">≡</div>
       <span>View All PSV</span>
@@ -49,19 +47,18 @@
 
   </div>
 
-  <!-- 🔹 ADD PSV FORM (HIDDEN) -->
-  <div id="addPsvForm" class="add-psv-form">
-
+  <!-- ===== ADD PSV FORM ===== -->
+  <div id="addPsvForm" class="add-psv-form" style="display:none;">
     <h2>Add PSV</h2>
 
-    <input id="unit" type="text" placeholder="Unit">
-    <input id="tag_no" type="text" placeholder="Tag No">
-    <input id="set_pressure" type="number" placeholder="Set Pressure (SP)">
+    <input id="unit" placeholder="Unit">
+    <input id="tag_no" placeholder="Tag No">
+    <input id="set_pressure" type="number" placeholder="Set Pressure">
     <input id="cdsp" type="number" placeholder="CDSP">
-    <input id="bp" type="number" placeholder="Back Pressure (BP)">
-    <input id="orifice" type="text" placeholder="Orifice">
-    <input id="type" type="text" placeholder="Type">
-    <input id="service" type="text" placeholder="Service">
+    <input id="bp" type="number" placeholder="Back Pressure">
+    <input id="orifice" placeholder="Orifice">
+    <input id="type" placeholder="Type">
+    <input id="service" placeholder="Service">
 
     <br><br>
     <button onclick="addPSV()">Save PSV</button>
@@ -69,15 +66,61 @@
 
   <hr>
 
-  <!-- 🔽 PSV LIST + CHART (HIDDEN BY DEFAULT) -->
+  <!-- ================= DASHBOARD SUMMARY ================= -->
+  <section class="dashboard-summary">
+
+    <div class="summary-row">
+
+      <!-- UNIT OVERVIEW -->
+      <div class="card">
+        <h3>PSV Units Overview</h3>
+        <canvas id="unitChart"></canvas>
+      </div>
+
+      <!-- STATUS SUMMARY -->
+      <div class="card">
+        <h3>PSV Status Summary</h3>
+        <canvas id="statusChart"></canvas>
+      </div>
+
+      <!-- ALERTS -->
+      <div class="card alerts">
+        <h3>Alerts</h3>
+        <ul id="alertList"></ul>
+      </div>
+
+    </div>
+
+    <!-- DUE & OVERDUE -->
+    <div class="card full-width">
+      <h3>Due & Overdue PSV</h3>
+
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Tag No</th>
+            <th>Unit</th>
+            <th>Set Pressure</th>
+            <th>Service</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody id="dueTable"></tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <hr>
+
+  <!-- ================= PSV LIST + CHART ================= -->
   <div id="psvSection" style="display:none;">
 
     <h2>PSV List</h2>
 
-    <!-- CONTROLS -->
     <div class="psv-controls">
       <input
-        type="text"
         id="searchInput"
         placeholder="Search PSV (Tag / Service)"
         onkeyup="filterPSV()"
@@ -90,7 +133,6 @@
       </span>
     </div>
 
-    <!-- TABLE -->
     <div class="table-wrapper">
       <table id="psvTable">
         <thead>
@@ -106,16 +148,12 @@
             <th>Action</th>
           </tr>
         </thead>
-
-        <tbody id="psvList">
-          <!-- JS rows -->
-        </tbody>
+        <tbody id="psvList"></tbody>
       </table>
     </div>
 
     <hr>
 
-    <!-- CHART -->
     <h2>PSV Service Chart</h2>
     <div class="chart-box">
       <canvas id="chart"></canvas>
@@ -125,12 +163,12 @@
 
 </main>
 
-<!-- FOOTER -->
+<!-- ================= FOOTER ================= -->
 <footer>
   © 2025 PSV Management System | Admin Panel
 </footer>
 
-<!-- JS -->
+<!-- ================= JS ================= -->
 <script src="admin.js"></script>
 
 </body>
