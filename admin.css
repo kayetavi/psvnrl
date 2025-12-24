@@ -378,4 +378,36 @@ footer {
   position: relative; /* Chart.js needs this */
 }
 
+.settings-wrapper {
+  position: relative;
+}
+
+.settings-btn {
+  font-size: 22px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #0f172a;
+  color: white;
+}
+
+.settings-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  padding: 10px;
+  z-index: 100;
+}
+
+.upload-label {
+  cursor: pointer;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+
 
