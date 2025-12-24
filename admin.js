@@ -43,7 +43,16 @@ async function logout() {
 }
 
 /* =====================
-   ADD PSV
+   ADD PSV FORM TOGGLE (NEW – UI ONLY)
+===================== */
+function toggleAddPSV() {
+  const form = document.getElementById("addPsvForm");
+  if (!form) return;
+  form.style.display = form.style.display === "block" ? "none" : "block";
+}
+
+/* =====================
+   ADD PSV (LOGIC SAME)
 ===================== */
 async function addPSV() {
   const payload = {
@@ -57,7 +66,6 @@ async function addPSV() {
     service: service.value.trim()
   };
 
-  // Basic required validation
   if (!payload.tag_no || !payload.set_pressure || !payload.service) {
     alert("⚠️ Tag No, Set Pressure and Service are required");
     return;
@@ -75,7 +83,7 @@ async function addPSV() {
 
   alert("✅ PSV Added Successfully");
 
-  // Clear all fields
+  // Clear fields
   unit.value = "";
   tag_no.value = "";
   set_pressure.value = "";
@@ -85,12 +93,16 @@ async function addPSV() {
   type.value = "";
   service.value = "";
 
+  // Hide form after save (UX improvement)
+  const form = document.getElementById("addPsvForm");
+  if (form) form.style.display = "none";
+
   loadPSV();
   loadChart();
 }
 
 /* =====================
-   LOAD PSV (MAIN)
+   LOAD PSV
 ===================== */
 async function loadPSV() {
   const { data, error } = await supabaseClient
@@ -107,7 +119,6 @@ async function loadPSV() {
   psvCache = data || [];
   renderTable(psvCache);
 }
-
 
 /* =====================
    RENDER TABLE
@@ -136,7 +147,6 @@ function renderTable(data) {
   document.getElementById("totalCount").innerText = data.length;
 }
 
-
 /* =====================
    SEARCH
 ===================== */
@@ -144,8 +154,8 @@ function filterPSV() {
   const keyword = searchInput.value.toLowerCase();
 
   const filtered = psvCache.filter(psv =>
-    psv.tag_no.toLowerCase().includes(keyword) ||
-    psv.service.toLowerCase().includes(keyword)
+    (psv.tag_no || "").toLowerCase().includes(keyword) ||
+    (psv.service || "").toLowerCase().includes(keyword)
   );
 
   renderTable(filtered);
@@ -156,8 +166,8 @@ function filterPSV() {
 ===================== */
 function sortByPressure() {
   const sorted = [...psvCache].sort((a, b) => {
-    const aP = parseFloat(a.set_pressure);
-    const bP = parseFloat(b.set_pressure);
+    const aP = parseFloat(a.set_pressure) || 0;
+    const bP = parseFloat(b.set_pressure) || 0;
     return sortDesc ? bP - aP : aP - bP;
   });
 
@@ -181,7 +191,7 @@ async function deletePSV(id) {
 }
 
 /* =====================
-   CHART
+   PIE CHART (SAME LOGIC)
 ===================== */
 async function loadChart() {
   const { data } = await supabaseClient
@@ -190,6 +200,7 @@ async function loadChart() {
 
   const counts = {};
   (data || []).forEach(row => {
+    if (!row.service) return;
     counts[row.service] = (counts[row.service] || 0) + 1;
   });
 
