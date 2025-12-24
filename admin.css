@@ -62,3 +62,14 @@ footer {
   text-align: center;
   padding: 12px;
 }
+
+.chart-box {
+  width: 220px;      /* pie chart size */
+  height: 220px;
+  margin: auto;     /* center */
+}
+
+#chart {
+  width: 100% !important;
+  height: 100% !important;
+}
