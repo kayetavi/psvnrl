@@ -1,0 +1,28 @@
+/* USER TABLE STYLES */
+
+.psv-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-top: 20px;
+}
+
+.psv-table th,
+.psv-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.psv-table th {
+  background: #0f172a;
+  color: white;
+}
+
+.psv-table tr:nth-child(even) {
+  background: #f4f6f8;
+}
+
+.psv-table tr:hover {
+  background: #eef2ff;
+}
