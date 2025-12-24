@@ -1,4 +1,4 @@
- /* ===============================
+/* ===============================
    GLOBAL
 ================================ */
 body {
@@ -8,27 +8,52 @@ body {
 }
 
 /* ===============================
-   HEADER
+   HEADER (ONLY THIS WILL APPLY)
 ================================ */
-header {
+.main-header {
   background: #0f172a;
   color: white;
-  padding: 15px 30px;
+  padding: 8px 20px;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  position: fixed;          /* ✅ STICKY GUARANTEED */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
-header h1 {
-  margin: 0;
-  font-size: 22px;
+/* Logo */
+.header-left {
+  width: 60px;
 }
 
-header button {
+.header-left img {
+  height: 24px;             /* ✅ LOGO SMALL */
+  width: auto;
+}
+
+/* Center title */
+.header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Logout button */
+.header-right button {
   background: #ef4444;
   border: none;
   color: white;
-  padding: 8px 14px;
+  padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -38,6 +63,7 @@ header button {
 ================================ */
 main {
   padding: 20px 30px;
+  margin-top: 70px;   /* ✅ FIXED HEADER GAP */
   min-height: calc(100vh - 120px);
 }
 
@@ -59,7 +85,7 @@ button {
 }
 
 /* ===============================
-   PSV CONTROLS (SEARCH / SORT)
+   PSV CONTROLS
 ================================ */
 .psv-controls {
   display: flex;
@@ -105,7 +131,7 @@ button {
   color: white;
   padding: 10px;
   text-align: left;
-  position: sticky;   /* ⭐ STICKY HEADER */
+  position: sticky;
   top: 0;
   z-index: 2;
 }
@@ -145,47 +171,4 @@ footer {
   color: #cbd5e1;
   text-align: center;
   padding: 12px;
-}
-
-
-.main-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 20px;
-  background: #0b3c5d;
-  color: white;
-
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-
-.header-left {
-  width: 80px;
-}
-
-.logo {
-  height: 25px;   /* yahan size kam kar diya */
-  width: auto;
-}
-
-
-.header-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.header-right button {
-  background: red;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  cursor: pointer;
 }
