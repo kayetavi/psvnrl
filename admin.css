@@ -267,10 +267,18 @@ button {
   position: relative;
 }
 
-/* PIE CHART */
+/* PIE CHART (SMALL & CLEAN) */
 .pie-chart-box {
-  height: 240px;
+  height: 180px;      /* 👈 yaha se size control hota hai */
+  max-width: 260px;  /* 👈 width bhi thodi kam */
+  margin: 0 auto;
 }
+
+.pie-chart-box canvas {
+  width: 160px !important;
+  height: 160px !important;
+}
+
 
 /* CANVAS SAFE RULE */
 .dashboard-summary canvas {
