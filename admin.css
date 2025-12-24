@@ -34,6 +34,7 @@ body {
 
 .header-left img {
   height: 24px;
+  width: auto;
 }
 
 .header-title {
@@ -68,14 +69,16 @@ h2 {
 }
 
 /* ===============================
-   TOP ACTION BUTTONS
+   ADD PSV ICON CARD (SMALL)
 ================================ */
 .top-actions {
   margin: 12px 0;
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 
+/* COMMON CARD STYLE */
 .add-psv-card,
 .view-psv-card {
   display: inline-flex;
@@ -93,22 +96,37 @@ h2 {
   box-shadow: 0 3px 8px rgba(0,0,0,0.18);
 }
 
+/* ADD PSV */
 .add-psv-card {
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: white;
 }
 
+.add-psv-card:hover {
+  opacity: 0.9;
+}
+
+/* VIEW ALL PSV */
 .view-psv-card {
   background: white;
   color: #2563eb;
   border: 1px solid #2563eb;
 }
 
+.view-psv-card:hover {
+  background: #2563eb;
+  color: white;
+}
+
+/* ICON STYLE (SAME SIZE) */
 .plus-icon,
 .list-icon {
   width: 26px;
   height: 26px;
+  background: white;
+  color: #1e40af;
   border-radius: 50%;
+
   font-size: 16px;
   font-weight: bold;
 
@@ -117,15 +135,12 @@ h2 {
   justify-content: center;
 }
 
-.plus-icon {
-  background: white;
-  color: #1e40af;
-}
-
+/* LIST ICON COLOR FIX */
 .view-psv-card .list-icon {
   background: #2563eb;
   color: white;
 }
+
 
 /* ===============================
    ADD PSV FORM
@@ -154,6 +169,19 @@ h2 {
 }
 
 /* ===============================
+   FORM INPUTS (GLOBAL)
+================================ */
+input {
+  padding: 8px;
+  margin-right: 6px;
+}
+
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+/* ===============================
    PSV CONTROLS
 ================================ */
 .psv-controls {
@@ -165,6 +193,11 @@ h2 {
 
 .psv-controls input {
   width: 260px;
+  padding: 8px;
+}
+
+.psv-controls button {
+  padding: 7px 14px;
 }
 
 .total-count {
@@ -180,9 +213,9 @@ h2 {
   margin-top: 10px;
   max-height: 400px;
   overflow-y: auto;
+  border: 1px solid #ddd;
   background: white;
   border-radius: 6px;
-  border: 1px solid #ddd;
 }
 
 #psvTable {
@@ -198,6 +231,7 @@ h2 {
   text-align: left;
   position: sticky;
   top: 0;
+  z-index: 2;
 }
 
 #psvTable td {
@@ -206,107 +240,24 @@ h2 {
 }
 
 #psvTable tr:hover {
-  background: #f2f6ff;
+  background-color: #f2f6ff;
+}
+
+#psvTable td:last-child {
+  text-align: center;
 }
 
 /* ===============================
-   DASHBOARD SUMMARY (FIXED)
-================================ */
-.dashboard-summary {
-  margin: 30px 0;
-}
-
-.summary-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.card {
-  background: white;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-
-  display: flex;
-  flex-direction: column;
-}
-
-.card h3 {
-  font-size: 16px;
-  margin-bottom: 10px;
-  text-align: left;
-}
-
-/* ✅ CHART VISIBILITY FIX */
-.card canvas {
-  width: 100% !important;
-  height: 180px !important;
-  display: block;
-}
-
-/* ===============================
-   ALERTS
-================================ */
-.alerts ul {
-  padding-left: 18px;
-}
-
-.alerts li {
-  margin-bottom: 8px;
-  font-size: 14px;
-}
-
-/* ===============================
-   DUE & OVERDUE TABLE
-================================ */
-.full-width {
-  margin-top: 20px;
-}
-
-.summary-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.summary-table th {
-  background: #f4f6f8;
-  padding: 10px;
-  font-weight: bold;
-  text-align: left;
-}
-
-.summary-table td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-}
-
-/* ===============================
-   STATUS BADGES
-================================ */
-.badge {
-  padding: 4px 10px;
-  border-radius: 6px;
-  color: white;
-  font-size: 12px;
-}
-
-.badge.overdue {
-  background: #dc2626;
-}
-
-.badge.due {
-  background: #f59e0b;
-}
-
-/* ===============================
-   SERVICE PIE CHART
+   CHART
 ================================ */
 .chart-box {
   width: 220px;
   height: 220px;
-  margin: 0 auto;
+  margin: 20px auto;
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
 }
 
 #chart {
@@ -323,3 +274,80 @@ footer {
   text-align: center;
   padding: 12px;
 }
+
+
+/* ===============================
+   DASHBOARD SUMMARY
+================================ */
+.dashboard-summary .card canvas {
+  max-width: 180px;
+  max-height: 180px;
+  margin: 0 auto;
+  display: block;
+}
+
+.dashboard-summary {
+  margin: 30px 0;
+}
+
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* Alerts */
+.alerts ul {
+  padding-left: 18px;
+}
+
+.alerts li {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+/* Full width table */
+.full-width {
+  margin-top: 20px;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.summary-table th,
+.summary-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+/* Status badges */
+.badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+}
+
+.badge.overdue {
+  background: #dc2626;
+}
+
+.badge.due {
+  background: #f59e0b;
+}
+
