@@ -268,9 +268,8 @@ unitChartInstance = new Chart(unitChart, {
     }]
   },
   options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    resizeDelay: 100,          // 👈 IMPORTANT
+    responsive: false,          // 🔥 THIS STOPS STRETCH
+    maintainAspectRatio: true,  // 🔥 IMPORTANT
     plugins: {
       legend: { display: false }
     },
@@ -282,6 +281,7 @@ unitChartInstance = new Chart(unitChart, {
     }
   }
 });
+
 
 
 
