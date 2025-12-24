@@ -27,9 +27,14 @@
 
   <!-- ADD PSV -->
   <h2>Add PSV</h2>
+  <input id="unit" type="text" placeholder="Unit">
   <input id="tag_no" type="text" placeholder="Tag No">
-  <input id="set_pressure" type="number" placeholder="Set Pressure">
-  <input id="service" type="text" placeholder="Service">
+<input id="set_pressure" type="number" placeholder="Set Pressure (SP)">
+<input id="cdsp" type="number" placeholder="CDSP">
+<input id="bp" type="number" placeholder="Back Pressure (BP)">
+<input id="orifice" type="text" placeholder="Orifice">
+<input id="type" type="text" placeholder="Type">
+<input id="service" type="text" placeholder="Service">
   <button onclick="addPSV()">Add PSV</button>
 
   <hr>
@@ -57,13 +62,19 @@
   <div class="table-wrapper">
     <table id="psvTable">
       <thead>
-        <tr>
-          <th>PSV No</th>
-          <th>Set Pressure</th>
-          <th>Service</th>
-          <th>Action</th>
-        </tr>
-      </thead>
+  <tr>
+     <th>Unit</th>
+    <th>Tag No</th>
+    <th>SP</th>
+    <th>CDSP</th>
+    <th>BP</th>
+    <th>Orifice</th>
+    <th>Type</th>
+    <th>Service</th>
+    <th>Action</th>
+  </tr>
+</thead>
+
 
       <tbody id="psvList">
         <!-- JS se rows yahin add hongi -->
