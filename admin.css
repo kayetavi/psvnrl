@@ -424,3 +424,99 @@ footer {
   font-weight: bold;
 }
 
+/* ============================
+   EDIT PSV MODAL
+============================ */
+
+/* Background overlay */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Modal box */
+.modal-content {
+  background: #ffffff;
+  width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  padding: 20px 24px;
+  border-radius: 10px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+  animation: popupFade 0.25s ease;
+}
+
+/* Title */
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 20px;
+  text-align: center;
+  color: #0f172a;
+}
+
+/* Inputs */
+.modal-content input {
+  width: 100%;
+  padding: 9px 10px;
+  margin-bottom: 10px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Focus effect */
+.modal-content input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+
+/* Buttons */
+.modal-content button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Save button */
+.modal-content button:first-of-type {
+  background: #2563eb;
+  color: white;
+}
+
+/* Cancel button */
+.modal-content button:last-of-type {
+  background: #e5e7eb;
+  margin-left: 10px;
+}
+
+/* Button hover */
+.modal-content button:hover {
+  opacity: 0.9;
+}
+
+/* Animation */
+@keyframes popupFade {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
