@@ -15,7 +15,8 @@ let chartInstance;
 let unitChartInstance;
 let statusChartInstance;
 
-
+let activeCardFilter = null;   // ALL / OK / Due / Overdue
+let cardViewOpen = false;     // toggle state
 /* =====================
    SETTINGS TOGGLE
 ===================== */
@@ -78,6 +79,9 @@ function togglePSVSection() {
   section.style.display = isHidden ? "block" : "none";
 
   if (isHidden) {
+    // ✅ Normal view → ACTION dikhna chahiye
+    renderTable(psvCache, false);
+
     setTimeout(() => {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 120);
@@ -210,7 +214,7 @@ async function loadPSV() {
 /* =====================
    RENDER TABLE
 ===================== */
-function renderTable(data) {
+function renderTable(data, hideAction = false) {
   psvList.innerHTML = "";
 
   data.forEach(psv => {
@@ -224,17 +228,22 @@ function renderTable(data) {
         <td>${psv.orifice || "-"}</td>
         <td>${psv.type || "-"}</td>
         <td>${psv.service || "-"}</td>
-<td>${psv.last_inspection_date || "-"}</td>
-<td>${psv.next_inspection_date || "-"}</td>
-<td>
-  <span class="status ${psv.inspection_status?.toLowerCase()}">
-    ${psv.inspection_status || "-"}
-  </span>
-</td>
-<td>
-  <button onclick="openEditModalById(${psv.id})">✏️</button>
-  <button onclick="deletePSV(${psv.id})">❌</button>
-</td>
+        <td>${psv.last_inspection_date || "-"}</td>
+        <td>${psv.next_inspection_date || "-"}</td>
+        <td>
+          <span class="status ${psv.inspection_status?.toLowerCase()}">
+            ${psv.inspection_status || "-"}
+          </span>
+        </td>
+
+        ${
+          hideAction
+            ? ""
+            : `<td>
+                <button onclick="openEditModalById(${psv.id})">✏️</button>
+                <button onclick="deletePSV(${psv.id})">❌</button>
+              </td>`
+        }
       </tr>
     `;
   });
@@ -578,3 +587,38 @@ data.forEach(psv => {
 loadPSV();
 loadChart();
 loadDashboardSummary();
+
+function filterByStatus(status) {
+  const section = document.getElementById("psvSection");
+  if (!section) return;
+
+  // 🔁 Same card pe dobara click → HIDE
+  if (cardViewOpen && activeCardFilter === status) {
+    section.style.display = "none";
+    cardViewOpen = false;
+    activeCardFilter = null;
+    return;
+  }
+
+  // SHOW section
+  section.style.display = "block";
+  cardViewOpen = true;
+  activeCardFilter = status;
+
+  setTimeout(() => {
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 120);
+
+  let filteredData = [];
+
+  if (status === "ALL") {
+    filteredData = psvCache;
+  } else {
+    filteredData = psvCache.filter(
+      psv => psv.inspection_status === status
+    );
+  }
+
+  // ❌ Card view → ACTION HIDE
+  renderTable(filteredData, true);
+}
