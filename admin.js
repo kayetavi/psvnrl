@@ -217,6 +217,12 @@ async function loadPSV() {
 function renderTable(data, hideAction = false) {
   psvList.innerHTML = "";
 
+  // 🔥 ACTION HEADER SHOW / HIDE
+  const actionHeader = document.getElementById("actionHeader");
+  if (actionHeader) {
+    actionHeader.style.display = hideAction ? "none" : "table-cell";
+  }
+
   data.forEach(psv => {
     psvList.innerHTML += `
       <tr>
