@@ -399,6 +399,14 @@ footer {
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   padding: 10px;
   z-index: 100;
+
+  color: #000;   /* ✅ TEXT BLACK */
+}
+
+.settings-menu div,
+.settings-menu span,
+.settings-menu button {
+  color: #000;   /* ✅ force black */
 }
 
 .upload-label {
