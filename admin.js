@@ -88,16 +88,22 @@ function togglePSVSection() {
    ADD PSV
 ===================== */
 async function addPSV() {
-  const payload = {
-    unit: unit.value.trim(),
-    tag_no: tag_no.value.trim(),
-    set_pressure: set_pressure.value.trim(),
-    cdsp: cdsp.value.trim(),
-    bp: bp.value.trim(),
-    orifice: orifice.value.trim(),
-    type: type.value.trim(),
-    service: service.value.trim()
-  };
+const payload = {
+  unit: unit.value.trim(),
+  tag_no: tag_no.value.trim(),
+  set_pressure: set_pressure.value.trim(),
+  cdsp: cdsp.value.trim(),
+  bp: bp.value.trim(),
+  orifice: orifice.value.trim(),
+  type: type.value.trim(),
+  service: service.value.trim(),
+
+  last_inspection_date:
+    document.getElementById("last_inspection_date").value || null,
+
+  inspection_frequency:
+    document.getElementById("inspection_frequency").value || null
+};
 
   if (!payload.tag_no || !payload.set_pressure || !payload.service) {
     alert("⚠️ Tag No, Set Pressure and Service are required");
@@ -218,9 +224,16 @@ function renderTable(data) {
         <td>${psv.orifice || "-"}</td>
         <td>${psv.type || "-"}</td>
         <td>${psv.service || "-"}</td>
-        <td>
-          <button onclick="deletePSV(${psv.id})">❌</button>
-        </td>
+<td>${psv.last_inspection_date || "-"}</td>
+<td>${psv.next_inspection_date || "-"}</td>
+<td>
+  <span class="status ${psv.inspection_status?.toLowerCase()}">
+    ${psv.inspection_status || "-"}
+  </span>
+</td>
+<td>
+  <button onclick="deletePSV(${psv.id})">❌</button>
+</td>
       </tr>
     `;
   });
@@ -368,9 +381,9 @@ unitChartInstance = new Chart(unitCanvas, {
   let active = 0, dueSoon = 0, overdue = 0;
 
   data.forEach(psv => {
-    if (psv.service?.toLowerCase().includes("flare")) overdue++;
-    else if (psv.service?.toLowerCase().includes("hc")) dueSoon++;
-    else active++;
+    if (psv.inspection_status === "Overdue") overdue++;
+else if (psv.inspection_status === "Due") dueSoon++;
+else if (psv.inspection_status === "OK") active++;
   });
 
   if (statusChartInstance) statusChartInstance.destroy();
@@ -400,36 +413,38 @@ statusChartInstance = new Chart(statusCanvas, {
 
 
   /* ---- ALERTS & DUE TABLE ---- */
-  alertList.innerHTML = "";
-  dueTable.innerHTML = "";
+  /* ---- ALERTS & DUE TABLE ---- */
+alertList.innerHTML = "";
+dueTable.innerHTML = "";
 
-  data.forEach(psv => {
-    if (!psv.tag_no) return;
+data.forEach(psv => {
+  if (!psv.tag_no) return;
 
-    let status = "Active";
-    if (psv.service?.toLowerCase().includes("flare")) status = "Overdue";
-    else if (psv.service?.toLowerCase().includes("hc")) status = "Due Soon";
+  const status = psv.inspection_status; // OK / Due / Overdue
 
-    if (status !== "Active") {
-      alertList.innerHTML += `
-        <li>⚠️ ${psv.tag_no} (${status})</li>
-      `;
+  // Sirf Due & Overdue dikhana
+  if (status !== "Due" && status !== "Overdue") return;
 
-      dueTable.innerHTML += `
-        <tr>
-          <td>${psv.tag_no}</td>
-          <td>${psv.unit || "-"}</td>
-          <td>${psv.set_pressure || "-"}</td>
-          <td>${psv.service || "-"}</td>
-          <td>
-            <span class="badge ${status === "Overdue" ? "overdue" : "due"}">
-              ${status}
-            </span>
-          </td>
-        </tr>
-      `;
-    }
-  });
+  // 🔔 Alerts list
+  alertList.innerHTML += `
+    <li>⚠️ ${psv.tag_no} (${status})</li>
+  `;
+
+  // 📋 Due / Overdue Table
+  dueTable.innerHTML += `
+    <tr>
+      <td>${psv.tag_no}</td>
+      <td>${psv.unit || "-"}</td>
+      <td>${psv.set_pressure || "-"}</td>
+      <td>${psv.service || "-"}</td>
+      <td>
+        <span class="badge ${status === "Overdue" ? "overdue" : "due"}">
+          ${status}
+        </span>
+      </td>
+    </tr>
+  `;
+});
 }
 
 /* =====================
