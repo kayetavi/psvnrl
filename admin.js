@@ -232,7 +232,7 @@ function renderTable(data) {
   </span>
 </td>
 <td>
-  <button onclick='openEditModal(${JSON.stringify(psv)})'>✏️</button>
+  <button onclick="openEditModalById(${psv.id})">✏️</button>
   <button onclick="deletePSV(${psv.id})">❌</button>
 </td>
       </tr>
@@ -242,6 +242,11 @@ function renderTable(data) {
   totalCount.innerText = data.length;
 }
 
+function openEditModalById(id) {
+  const psv = psvCache.find(p => p.id === id);
+  if (!psv) return;
+  openEditModal(psv);
+}
 
 /* =====================
    editing model 
