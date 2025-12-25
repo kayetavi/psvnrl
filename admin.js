@@ -304,6 +304,10 @@ async function saveEditPSV() {
   loadPSV();
   loadDashboardSummary();
 }
+function closeEditModal() {
+  document.getElementById("editModal").style.display = "none";
+}
+
 /* =====================
    SEARCH
 ===================== */
