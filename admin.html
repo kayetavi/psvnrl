@@ -26,6 +26,25 @@
   <h1 class="header-title">NUMALIGARH REFINERY LIMITED</h1>
 
   <div class="header-right">
+
+    <!-- ⚙️ SETTINGS -->
+  <div class="settings-wrapper">
+    <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+
+    <div id="settingsMenu" class="settings-menu" style="display:none;">
+      <label class="upload-label">
+        📤 Upload PSV (Excel)
+        <input
+          type="file"
+          id="excelUpload"
+          accept=".xlsx,.xls"
+          onchange="uploadExcel()"
+          hidden
+        >
+      </label>
+    </div>
+  </div>
+    
     <button onclick="logout()">Logout</button>
   </div>
 </header>
@@ -46,24 +65,6 @@
     <div class="view-psv-card" onclick="togglePSVSection()">
       <div class="list-icon">≡</div>
       <span>View All PSV</span>
-    </div>
-
-    <!-- ⚙️ SETTINGS / EXCEL UPLOAD -->
-    <div class="settings-wrapper">
-      <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
-
-      <div id="settingsMenu" class="settings-menu" style="display:none;">
-        <label class="upload-label">
-          📤 Upload PSV (Excel)
-          <input
-            type="file"
-            id="excelUpload"
-            accept=".xlsx,.xls"
-            onchange="uploadExcel()"
-            hidden
-          >
-        </label>
-      </div>
     </div>
 
   </div>
