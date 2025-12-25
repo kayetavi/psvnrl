@@ -670,5 +670,5 @@ function filterByUnit(unit) {
   const filtered = psvCache.filter(psv => psv.unit === unit);
 
   // 🔥 Unit filter → ACTION DIKHANA (edit/delete allowed)
-  renderTable(filtered, false);
+  renderTable(filtered, true);
 }
