@@ -394,29 +394,47 @@ footer {
   position: absolute;
   top: 50px;
   right: 0;
-  background: white;
+
+  background: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  padding: 6px 8px;   /* 👈 COMPACT */
-  z-index: 100;
-  font-size: 13px;   /* 👈 TEXT SMALL */
 
-  color: #000;   /* ✅ TEXT BLACK */
+  padding: 4px;              /* 👈 outer padding very small */
+  width: max-content;        /* 👈 width = text size */
+  min-width: unset;          /* 👈 remove default width */
+
+  z-index: 100;
+  font-size: 13px;
 }
 
+/* MENU ITEMS */
 .settings-menu div,
 .settings-menu label,
 .settings-menu span,
 .settings-menu button {
-  padding: 6px 8px;     /* compact spacing */
-  line-height: 1.3;     /* vertical tight */
-  font-size: 13px;     /* small text */
-  color: #111;         /* clear black */
+  padding: 4px 8px;          /* 👈 compact */
+  line-height: 1.2;
+  font-size: 13px;
+  color: #111;
+
+  display: flex;             /* 👈 icon + text inline */
+  align-items: center;
+  gap: 6px;
+
+  white-space: nowrap;       /* 👈 no extra width */
 }
 
+/* HOVER EFFECT */
+.settings-menu div:hover,
+.settings-menu label:hover {
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+
+/* UPLOAD LABEL */
 .upload-label {
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
   color: #0f172a;
 }
 
