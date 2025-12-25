@@ -232,6 +232,7 @@ function renderTable(data) {
   </span>
 </td>
 <td>
+  <button onclick='openEditModal(${JSON.stringify(psv)})'>✏️</button>
   <button onclick="deletePSV(${psv.id})">❌</button>
 </td>
       </tr>
@@ -241,6 +242,68 @@ function renderTable(data) {
   totalCount.innerText = data.length;
 }
 
+
+/* =====================
+   editing model 
+===================== */
+function openEditModal(psv) {
+  document.getElementById("editModal").style.display = "flex";
+
+  edit_id.value = psv.id;
+  edit_unit.value = psv.unit || "";
+  edit_tag_no.value = psv.tag_no || "";
+  edit_set_pressure.value = psv.set_pressure || "";
+  edit_cdsp.value = psv.cdsp || "";
+  edit_bp.value = psv.bp || "";
+  edit_orifice.value = psv.orifice || "";
+  edit_type.value = psv.type || "";
+  edit_service.value = psv.service || "";
+
+  edit_last_inspection_date.value =
+    psv.last_inspection_date
+      ? psv.last_inspection_date.split("T")[0]
+      : "";
+
+  edit_inspection_frequency.value =
+    psv.inspection_frequency || "";
+}
+
+
+/* =====================
+   editing save data
+===================== */
+async function saveEditPSV() {
+  const id = edit_id.value;
+
+  const payload = {
+    unit: edit_unit.value,
+    tag_no: edit_tag_no.value,
+    set_pressure: edit_set_pressure.value,
+    cdsp: edit_cdsp.value,
+    bp: edit_bp.value,
+    orifice: edit_orifice.value,
+    type: edit_type.value,
+    service: edit_service.value,
+    last_inspection_date: edit_last_inspection_date.value || null,
+    inspection_frequency: edit_inspection_frequency.value || null
+  };
+
+  const { error } = await supabaseClient
+    .from("psv_data")
+    .update(payload)
+    .eq("id", id);
+
+  if (error) {
+    alert("❌ Update failed");
+    return;
+  }
+
+  alert("✅ PSV Updated");
+
+  closeEditModal();
+  loadPSV();
+  loadDashboardSummary();
+}
 /* =====================
    SEARCH
 ===================== */
