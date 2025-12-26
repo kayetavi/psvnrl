@@ -446,36 +446,6 @@ function sortByPressure() {
   renderTable(sorted);
 }
 
-/* =====================
-   FILTER BY STATUS (SUMMARY CARD CLICK kpi tab)
-===================== */
-function filterByStatus(status) {
-
-  // 1️⃣ PSV List section open karo
-  const section = document.getElementById("psvSection");
-  if (section.style.display !== "block") {
-    section.style.display = "block";
-  }
-
-  // 2️⃣ Smooth scroll to table
-  setTimeout(() => {
-    section.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, 120);
-
-  // 3️⃣ Filter logic
-  let filteredData = [];
-
-  if (status === "ALL") {
-    filteredData = psvCache;
-  } else {
-    filteredData = psvCache.filter(
-      psv => psv.inspection_status === status
-    );
-  }
-
-  // 4️⃣ Render filtered table
-  renderTable(filteredData);
-}
 
 /* =====================
    DELETE PSV
