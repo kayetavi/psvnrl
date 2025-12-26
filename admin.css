@@ -708,6 +708,21 @@ button {
 }
 
 /* ===============================
+  Excel Template download-link
+================================ */
+
+.download-link {
+  text-decoration: none;
+  color: #111;
+  cursor: pointer;
+}
+
+.download-link:hover {
+  background: #f3f4f6;
+}
+
+
+/* ===============================
    FOOTER
 ================================ */
 footer {
