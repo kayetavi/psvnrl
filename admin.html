@@ -168,14 +168,17 @@
   <!-- ===== PSV FILTER BAR ===== -->
 <div class="psv-filters">
 
+  <!-- UNIT -->
   <select id="filterUnit" onchange="applyFilters()">
     <option value="">All Units</option>
   </select>
 
+  <!-- SERVICE -->
   <select id="filterService" onchange="applyFilters()">
     <option value="">All Services</option>
   </select>
 
+  <!-- STATUS -->
   <select id="filterStatus" onchange="applyFilters()">
     <option value="">All Status</option>
     <option value="OK">Active</option>
@@ -183,6 +186,7 @@
     <option value="Overdue">Overdue</option>
   </select>
 
+  <!-- SET PRESSURE RANGE -->
   <input
     type="number"
     id="minPressure"
@@ -197,6 +201,37 @@
     onkeyup="applyFilters()"
   >
 
+  <!-- LAST INSPECTION RANGE -->
+  <input
+    type="date"
+    id="lastFrom"
+    title="Last Inspection From"
+    onchange="applyFilters()"
+  >
+
+  <input
+    type="date"
+    id="lastTo"
+    title="Last Inspection To"
+    onchange="applyFilters()"
+  >
+
+  <!-- NEXT INSPECTION RANGE -->
+  <input
+    type="date"
+    id="nextFrom"
+    title="Next Inspection From"
+    onchange="applyFilters()"
+  >
+
+  <input
+    type="date"
+    id="nextTo"
+    title="Next Inspection To"
+    onchange="applyFilters()"
+  >
+
+  <!-- RESET -->
   <button onclick="resetFilters()">Reset</button>
 
 </div>
