@@ -166,10 +166,21 @@ async function uploadExcel() {
 
   let nextInspection = null;
 
+  // 🔒 SAFE DATE PARSE
   if (r.last_inspection_date && r.inspection_frequency) {
-    const d = new Date(r.last_inspection_date);
+    const parts = r.last_inspection_date.toString().split("-");
+    
+    // DD-MM-YYYY → YYYY-MM-DD
+    let safeDate = r.last_inspection_date;
+    if (parts.length === 3 && parts[0].length === 2) {
+      safeDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+
+    const d = new Date(safeDate);
     d.setMonth(d.getMonth() + Number(r.inspection_frequency));
     nextInspection = d.toISOString().split("T")[0];
+
+    r.last_inspection_date = safeDate;
   }
 
   return {
@@ -177,14 +188,13 @@ async function uploadExcel() {
     tag_no: r.tag_no || "",
     set_pressure: r.set_pressure || null,
     cdsp: r.cdsp || null,
-    bp: r.bp || null,
+    bp: isNaN(r.bp) ? null : r.bp,
     orifice: r.orifice || "",
     type: r.type || "",
     service: r.service || "",
 
-    // 🆕 NEW FIELDS
     last_inspection_date: r.last_inspection_date || null,
-    inspection_frequency: r.inspection_frequency || null,
+    inspection_frequency: Number(r.inspection_frequency) || null,
     next_inspection_date: nextInspection
   };
 });
@@ -195,10 +205,11 @@ async function uploadExcel() {
       .insert(cleanRows);
 
     if (error) {
-      console.error(error);
-      alert("❌ Excel upload failed");
-      return;
-    }
+  console.error(error);
+  alert("❌ " + error.message);
+  return;
+}
+
 
     alert(`✅ ${cleanRows.length} PSV uploaded successfully`);
 
