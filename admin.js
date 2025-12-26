@@ -684,6 +684,12 @@ function applyFilters() {
   const search = document.getElementById("searchInput")?.value
     .toLowerCase() || "";
 
+  // 🔥 DATE RANGE VALUES
+  const lastFrom = document.getElementById("lastFrom")?.value;
+  const lastTo   = document.getElementById("lastTo")?.value;
+  const nextFrom = document.getElementById("nextFrom")?.value;
+  const nextTo   = document.getElementById("nextTo")?.value;
+
   filteredCache = psvCache.filter(psv => {
 
     if (unit && psv.unit !== unit) return false;
@@ -693,6 +699,7 @@ function applyFilters() {
     if (minSP && Number(psv.set_pressure) < Number(minSP)) return false;
     if (maxSP && Number(psv.set_pressure) > Number(maxSP)) return false;
 
+    // 🔍 SEARCH
     if (
       search &&
       !(
@@ -700,6 +707,24 @@ function applyFilters() {
         (psv.service || "").toLowerCase().includes(search)
       )
     ) return false;
+
+    // 📅 LAST INSPECTION RANGE
+    if (lastFrom && (!psv.last_inspection_date ||
+        new Date(psv.last_inspection_date) < new Date(lastFrom)))
+      return false;
+
+    if (lastTo && (!psv.last_inspection_date ||
+        new Date(psv.last_inspection_date) > new Date(lastTo)))
+      return false;
+
+    // 📅 NEXT INSPECTION RANGE
+    if (nextFrom && (!psv.next_inspection_date ||
+        new Date(psv.next_inspection_date) < new Date(nextFrom)))
+      return false;
+
+    if (nextTo && (!psv.next_inspection_date ||
+        new Date(psv.next_inspection_date) > new Date(nextTo)))
+      return false;
 
     return true;
   });
@@ -776,7 +801,10 @@ function filterByUnit(unit) {
 function resetFilters() {
 
   ["filterUnit","filterService","filterStatus",
-   "minPressure","maxPressure","searchInput"]
+ "minPressure","maxPressure",
+ "lastFrom","lastTo","nextFrom","nextTo",
+ "searchInput"]
+     
   .forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = "";
