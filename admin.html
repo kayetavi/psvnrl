@@ -114,64 +114,65 @@
 
 </div>
 
-  <!-- ================= DASHBOARD SUMMARY ================= -->
-  <section class="dashboard-summary">
+ <!-- ================= DASHBOARD SUMMARY ================= -->
+<section class="dashboard-summary">
 
-    <div class="summary-row">
+  <div class="summary-row">
 
-      <div class="card">
-        <h3>PSV Units Overview</h3>
-        <div class="unit-chart-box">
-  <canvas id="unitChart"></canvas>
-</div>
-
+    <!-- STATUS PIE CHART -->
+    <div class="card">
+      <h3>PSV Status Summary</h3>
+      <div class="chart-box">
+        <canvas id="statusChart"></canvas>
       </div>
+    </div>
 
-      <div class="card">
-  <h3>PSV Status Summary</h3>
+    <!-- ALERTS -->
+    <div class="card alerts">
+      <h3>Alerts</h3>
 
-  <div class="chart-box">
-    <canvas id="statusChart"></canvas>
+      <!-- 🔍 Alert Search -->
+      <input
+        type="text"
+        id="alertSearch"
+        placeholder="Search PSV..."
+        onkeyup="filterAlerts()"
+        class="alert-search"
+      >
+
+      <ul id="alertList"></ul>
+    </div>
+
+    <!-- 👇 BAR CHART AB NICHE -->
+    <div class="card">
+      <h3>PSV Units Overview</h3>
+      <div class="unit-chart-box">
+        <canvas id="unitChart"></canvas>
+      </div>
+    </div>
+
   </div>
-</div>
 
+  <!-- DUE & OVERDUE TABLE -->
+  <div class="card full-width">
+    <h3>Due & Overdue PSV</h3>
 
-      <div class="card alerts">
-  <h3>Alerts</h3>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Tag No</th>
+          <th>Unit</th>
+          <th>Set Pressure</th>
+          <th>Service</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="dueTable"></tbody>
+    </table>
+  </div>
 
-  <!-- 🔍 Alert Search -->
-  <input
-    type="text"
-    id="alertSearch"
-    placeholder="Search PSV..."
-    onkeyup="filterAlerts()"
-    class="alert-search"
-  >
+</section>
 
-  <ul id="alertList"></ul>
-</div>
-
-
-    </div>
-
-    <div class="card full-width">
-      <h3>Due & Overdue PSV</h3>
-
-      <table class="summary-table">
-        <thead>
-          <tr>
-            <th>Tag No</th>
-            <th>Unit</th>
-            <th>Set Pressure</th>
-            <th>Service</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="dueTable"></tbody>
-      </table>
-    </div>
-
-  </section>
 
   <hr>
 
