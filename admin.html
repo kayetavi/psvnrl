@@ -66,27 +66,6 @@
 
   <p><b>Only ADMIN can see this</b></p>
 
-
-  <!-- ===== ADD PSV FORM ===== -->
-  <div id="addPsvForm" class="add-psv-form" style="display:none;">
-    <h2>Add PSV</h2>
-
-    <input id="unit" placeholder="Unit">
-    <input id="tag_no" placeholder="Tag No">
-    <input id="set_pressure" type="number" placeholder="Set Pressure">
-    <input id="cdsp" type="number" placeholder="CDSP">
-    <input id="bp" type="number" placeholder="Back Pressure">
-    <input id="orifice" placeholder="Orifice">
-    <input id="type" placeholder="Type">
-    <input id="service" placeholder="Service">
-    <input id="last_inspection_date" type="date" placeholder="Last Inspection Date">
-    <input id="inspection_frequency"type="number"
-       placeholder="Inspection Frequency (Months)">
-
-    <br><br>
-    <button onclick="addPSV()">Save PSV</button>
-  </div>
-
   <hr>
 
   <!-- ===== QUICK SUMMARY CARDS ===== -->
@@ -265,8 +244,26 @@
 
     <!-- Existing form ko yahan move karo -->
     <form id="addPsvForm">
-      <!-- ⚠️ tumhara existing inputs yahin rahenge -->
-    </form>
+      <form id="addPsvForm">
+
+  <input id="unit" placeholder="Unit">
+  <input id="tag_no" placeholder="Tag No">
+  <input id="set_pressure" type="number" placeholder="Set Pressure">
+  <input id="cdsp" type="number" placeholder="CDSP">
+  <input id="bp" type="number" placeholder="Back Pressure">
+  <input id="orifice" placeholder="Orifice">
+  <input id="type" placeholder="Type">
+  <input id="service" placeholder="Service">
+  <input id="last_inspection_date" type="date">
+  <input id="inspection_frequency" type="number"
+         placeholder="Inspection Frequency (Months)">
+
+  <br><br>
+
+  <button type="button" onclick="addPSV()">💾 Save PSV</button>
+
+</form>
+
   </div>
 </div>
 
