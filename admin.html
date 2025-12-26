@@ -242,17 +242,23 @@
     <h2>PSV List</h2>
 
     <div class="psv-controls">
-      <input
-        id="searchInput"
-        placeholder="Search PSV (Tag / Service)"
-        onkeyup="filterPSV()"
-      >
 
-      <button onclick="sortByPressure()">Sort SP ⬇️</button>
+  <input
+    id="searchInput"
+    placeholder="Search PSV (Tag / Service)"
+    onkeyup="filterPSV()"
+  >
 
-      <span class="total-count">
-        Total PSV: <b id="totalCount">0</b>
-      </span>
+  <!-- 🔥 SORT + EXPORT GROUP -->
+  <div class="psv-action-buttons">
+    <button onclick="sortByPressure()">Sort SP ⬇️</button>
+    <button onclick="exportToExcel()">Export 📤</button>
+  </div>
+
+  <span class="total-count">
+    Total PSV: <b id="totalCount">0</b>
+  </span>
+
     </div>
 
     <div class="table-wrapper">
