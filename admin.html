@@ -243,29 +243,39 @@
     </div>
 
     <!-- Existing form ko yahan move karo -->
+    <!-- ADD PSV MODAL -->
+<div id="addPsvModal" class="modal-overlay" style="display:none;">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h3>➕ Add New PSV</h3>
+      <button onclick="closeAddPSVModal()">✖</button>
+    </div>
+
+    <!-- ✅ SINGLE FORM ONLY -->
     <form id="addPsvForm">
-      <form id="addPsvForm">
 
-  <input id="unit" placeholder="Unit">
-  <input id="tag_no" placeholder="Tag No">
-  <input id="set_pressure" type="number" placeholder="Set Pressure">
-  <input id="cdsp" type="number" placeholder="CDSP">
-  <input id="bp" type="number" placeholder="Back Pressure">
-  <input id="orifice" placeholder="Orifice">
-  <input id="type" placeholder="Type">
-  <input id="service" placeholder="Service">
-  <input id="last_inspection_date" type="date">
-  <input id="inspection_frequency" type="number"
-         placeholder="Inspection Frequency (Months)">
+      <input id="unit" placeholder="Unit">
+      <input id="tag_no" placeholder="Tag No">
+      <input id="set_pressure" type="number" placeholder="Set Pressure">
+      <input id="cdsp" type="number" placeholder="CDSP">
+      <input id="bp" type="number" placeholder="Back Pressure">
+      <input id="orifice" placeholder="Orifice">
+      <input id="type" placeholder="Type">
+      <input id="service" placeholder="Service">
+      <input id="last_inspection_date" type="date">
+      <input id="inspection_frequency" type="number"
+             placeholder="Inspection Frequency (Months)">
 
-  <br><br>
+      <br><br>
 
-  <button type="button" onclick="addPSV()">💾 Save PSV</button>
+      <button type="button" onclick="addPSV()">💾 Save PSV</button>
 
-</form>
+    </form>
 
   </div>
 </div>
+
 
 
 <!-- ================= FOOTER ================= -->
