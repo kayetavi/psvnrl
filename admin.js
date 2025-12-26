@@ -861,3 +861,45 @@ function filterAlerts() {
   });
 }
 
+
+/* =====================
+   Export psv list
+===================== */
+function exportToExcel() {
+
+  // 🔥 Agar filter laga hai to wahi export hoga
+  const dataToExport =
+    filteredCache.length ? filteredCache : psvCache;
+
+  if (!dataToExport.length) {
+    alert("No data to export");
+    return;
+  }
+
+  // 🧹 Clean & readable columns
+  const cleanData = dataToExport.map(psv => ({
+    Unit: psv.unit || "",
+    Tag_No: psv.tag_no || "",
+    Set_Pressure: psv.set_pressure || "",
+    CDSP: psv.cdsp || "",
+    BP: psv.bp || "",
+    Orifice: psv.orifice || "",
+    Type: psv.type || "",
+    Service: psv.service || "",
+    Last_Inspection: psv.last_inspection_date || "",
+    Next_Inspection: psv.next_inspection_date || "",
+    Status: psv.inspection_status || ""
+  }));
+
+  // 📦 Sheet create
+  const worksheet = XLSX.utils.json_to_sheet(cleanData);
+  const workbook = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(workbook, worksheet, "PSV_Data");
+
+  // 📥 Download
+  XLSX.writeFile(
+    workbook,
+    `PSV_Export_${new Date().toISOString().split("T")[0]}.xlsx`
+  );
+}
