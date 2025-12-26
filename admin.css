@@ -425,7 +425,7 @@ button {
 
   display: flex;
   align-items: flex-end; /* 👈 chart ko niche push karega */
-  padding-bottom: 20px;  /* 👈 bottom spacing use hoga */
+  
 }
 
 
