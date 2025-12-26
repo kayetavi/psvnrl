@@ -418,12 +418,16 @@ button {
 /* BAR CHART FIX */
 .unit-chart-box {
   width: 100%;
-  height: 220px;      /* 👈 FIXED HEIGHT – IMPORTANT */
+  height: 220px;
   max-width: 100%;
   margin: 0 auto;
-  margin-top: 40px;   /* 👈 BAR CHART NICHE AAYEGA */
-  position: relative; /* Chart.js needs this */
+  position: relative;
+
+  display: flex;
+  align-items: flex-end; /* 👈 chart ko niche push karega */
+  padding-bottom: 20px;  /* 👈 bottom spacing use hoga */
 }
+
 
 .settings-wrapper {
   position: relative;
