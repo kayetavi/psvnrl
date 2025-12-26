@@ -80,7 +80,13 @@ async function logout() {
 function toggleAddPSV() {
   const form = document.getElementById("addPsvForm");
   if (!form) return;
-  form.style.display = form.style.display === "block" ? "none" : "block";
+
+  hideDashboard();            // 🔥 SAME as cards
+  form.style.display = "block";
+
+  setTimeout(() => {
+    form.scrollIntoView({ behavior: "smooth" });
+  }, 120);
 }
 
 /* =====================
@@ -90,19 +96,14 @@ function togglePSVSection() {
   const section = document.getElementById("psvSection");
   if (!section) return;
 
-  const isHidden =
-    section.style.display === "none" || section.style.display === "";
+  hideDashboard();                // 🔥 SAME as cards (overview hide)
 
-  section.style.display = isHidden ? "block" : "none";
+  section.style.display = "block";
+  renderTable(psvCache, false);   // ✅ ACTION column visible
 
-  if (isHidden) {
-    showDashboard();               // 🔥 dashboard wapas dikhe
-    renderTable(psvCache, false);  // ✅ ACTION column visible
-
-    setTimeout(() => {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 120);
-  }
+  setTimeout(() => {
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 120);
 }
 
 
