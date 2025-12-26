@@ -77,27 +77,16 @@ async function logout() {
 /* =====================
    ADD PSV FORM TOGGLE
 ===================== */
-function toggleAddPSV() {
-  const form = document.getElementById("addPsvForm");
-  if (!form) return;
-
-  const isOpen = form.style.display === "block";
-
-  // 🔁 Dubara click → CLOSE + dashboard wapas
-  if (isOpen) {
-    form.style.display = "none";
-    showDashboard();              // ✅ overview back
-    return;
-  }
-
-  // 🔥 First click → OPEN
-  hideDashboard();
-  form.style.display = "block";
-
-  setTimeout(() => {
-    form.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, 120);
+function openAddPSVModal() {
+  hideDashboard();                        // optional
+  document.getElementById("addPsvModal").style.display = "flex";
 }
+
+function closeAddPSVModal() {
+  document.getElementById("addPsvModal").style.display = "none";
+  showDashboard();                        // optional
+}
+
 
 
 /* =====================
@@ -176,6 +165,9 @@ const payload = {
   loadChart();
   loadDashboardSummary();
 }
+
+closeAddPSVModal();
+
 
 /* =====================
    DATE FORMAT HELPER
