@@ -165,6 +165,42 @@
 
   <hr>
 
+  <!-- ===== PSV FILTER BAR ===== -->
+<div class="psv-filters">
+
+  <select id="filterUnit" onchange="applyFilters()">
+    <option value="">All Units</option>
+  </select>
+
+  <select id="filterService" onchange="applyFilters()">
+    <option value="">All Services</option>
+  </select>
+
+  <select id="filterStatus" onchange="applyFilters()">
+    <option value="">All Status</option>
+    <option value="OK">Active</option>
+    <option value="Due">Due</option>
+    <option value="Overdue">Overdue</option>
+  </select>
+
+  <input
+    type="number"
+    id="minPressure"
+    placeholder="Min SP"
+    onkeyup="applyFilters()"
+  >
+
+  <input
+    type="number"
+    id="maxPressure"
+    placeholder="Max SP"
+    onkeyup="applyFilters()"
+  >
+
+  <button onclick="resetFilters()">Reset</button>
+
+</div>
+  
   <!-- ================= PSV LIST ================= -->
   <div id="psvSection" style="display:none;">
 
