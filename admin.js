@@ -107,10 +107,12 @@ const payload = {
   service: service.value.trim(),
 
   last_inspection_date:
-    document.getElementById("last_inspection_date").value || null,
+  toISODate(document.getElementById("last_inspection_date").value),
+
 
   inspection_frequency:
-    document.getElementById("inspection_frequency").value || null
+  Number(document.getElementById("inspection_frequency").value) || null
+
 };
 
   if (!payload.tag_no || !payload.set_pressure || !payload.service) {
@@ -137,6 +139,26 @@ const payload = {
   loadPSV();
   loadChart();
   loadDashboardSummary();
+}
+
+/* =====================
+   DATE FORMAT HELPER
+===================== */
+function toISODate(value) {
+  if (!value) return null;
+
+  // Already YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return value;
+  }
+
+  // DD-MM-YYYY → YYYY-MM-DD
+  if (/^\d{2}-\d{2}-\d{4}$/.test(value)) {
+    const [dd, mm, yyyy] = value.split("-");
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  return null;
 }
 
 /* =====================
@@ -348,17 +370,31 @@ function openEditModal(psv) {
 async function saveEditPSV() {
   const id = edit_id.value;
 
+  const lastInspectionRaw = edit_last_inspection_date.value;
+  const freq = Number(edit_inspection_frequency.value) || null;
+
+  const lastInspection = toISODate(lastInspectionRaw);
+
+  let nextInspection = null;
+  if (lastInspection && freq) {
+    const d = new Date(lastInspection);
+    d.setMonth(d.getMonth() + freq);
+    nextInspection = d.toISOString().split("T")[0];
+  }
+
   const payload = {
-    unit: edit_unit.value,
-    tag_no: edit_tag_no.value,
-    set_pressure: edit_set_pressure.value,
-    cdsp: edit_cdsp.value,
-    bp: edit_bp.value,
-    orifice: edit_orifice.value,
-    type: edit_type.value,
-    service: edit_service.value,
-    last_inspection_date: edit_last_inspection_date.value || null,
-    inspection_frequency: edit_inspection_frequency.value || null
+    unit: edit_unit.value || null,
+    tag_no: edit_tag_no.value || null,
+    set_pressure: edit_set_pressure.value || null,
+    cdsp: edit_cdsp.value || null,
+    bp: edit_bp.value || null,
+    orifice: edit_orifice.value || null,
+    type: edit_type.value || null,
+    service: edit_service.value || null,
+
+    last_inspection_date: lastInspection,
+    inspection_frequency: freq,
+    next_inspection_date: nextInspection
   };
 
   const { error } = await supabaseClient
@@ -367,16 +403,17 @@ async function saveEditPSV() {
     .eq("id", id);
 
   if (error) {
+    console.error(error);
     alert("❌ Update failed");
     return;
   }
 
   alert("✅ PSV Updated");
-
   closeEditModal();
   loadPSV();
   loadDashboardSummary();
 }
+
 function closeEditModal() {
   document.getElementById("editModal").style.display = "none";
 }
