@@ -792,17 +792,20 @@ button {
    FOOTER
 ================================ */
 footer {
-  height: 26px;                 /* 👈 aur chhota */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
   background: #0f172a;
   color: #cbd5e1;
+  text-align: center;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 6px 10px;
+  font-size: 11px;     /* 👈 TEXT SMALL */
+  line-height: 1.2;    /* 👈 vertical gap control */
 
-  font-size: 11px;              /* 👈 text small */
-  line-height: 1;
-
-  padding: 0 8px;               /* 👈 extra gap hatao */
+  z-index: 9999;
 }
+
 
