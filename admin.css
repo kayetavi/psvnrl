@@ -187,6 +187,7 @@ button {
   cursor: pointer;
 }
 
+
 /* ===============================
    PSV CONTROLS
 ================================ */
@@ -792,7 +793,7 @@ footer {
   background: #0f172a;
   color: #cbd5e1;
   text-align: center;
-  padding: 12px;
+  padding: 6px 10px;
 
   z-index: 9999;
 }
