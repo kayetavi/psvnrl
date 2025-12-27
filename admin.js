@@ -79,22 +79,30 @@ async function logout() {
 // DUE & OVERDUE COLUMN FILTER
 // ===============================
 function filterDueTable() {
+  const table = document.getElementById("dueTableMain");
   const rows = document.querySelectorAll("#dueTable tr");
-  const filters = document.querySelectorAll(".filter-row input, .filter-row select");
+  const filters = table.querySelectorAll(".filter-row input, .filter-row select");
 
   rows.forEach(row => {
-    const cells = row.querySelectorAll("td");
     let visible = true;
+    const cells = row.querySelectorAll("td");
 
     filters.forEach(filter => {
-      const col = filter.dataset.col;
-      const value = filter.value.toLowerCase();
+      const col = parseInt(filter.dataset.col);
+      const filterVal = filter.value.toLowerCase().trim();
+      if (!filterVal) return;
 
-      if (!value) return;
+      const cell = cells[col];
+      if (!cell) return;
 
-      const cellText = cells[col]?.innerText.toLowerCase() || "";
+      let cellText = cell.innerText.toLowerCase();
 
-      if (!cellText.includes(value)) {
+      // ✅ Date fix (YYYY-MM-DD)
+      if (filter.type === "date") {
+        cellText = cellText.split(" ")[0];
+      }
+
+      if (!cellText.includes(filterVal)) {
         visible = false;
       }
     });
@@ -102,6 +110,7 @@ function filterDueTable() {
     row.style.display = visible ? "" : "none";
   });
 }
+
 
 
 
