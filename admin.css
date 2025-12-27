@@ -63,14 +63,18 @@ body {
    MAIN
 ================================ */
 main {
-  padding: 64px 30px 20px;  /* 👈 TOP padding increase */
+  position: fixed;
 
-  margin-top: 48px;        /* header height */
-  margin-bottom: 26px;     /* footer height */
+  top: 48px;      /* header height */
+  bottom: 26px;   /* footer height */
 
-  height: calc(100vh - 48px - 26px);
+  left: 0;
+  right: 0;
+
+  padding: 20px 30px;
   overflow-y: auto;
 }
+
 
 h2 {
   margin-top: 30px;
