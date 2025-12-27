@@ -76,27 +76,33 @@ async function logout() {
 }
 
 // ===============================
-// DUE & OVERDUE SEARCH TOGGLE
+// DUE & OVERDUE COLUMN FILTER
 // ===============================
-function toggleDueSearch() {
-  const s = document.getElementById("dueSearch");
-  if (!s) return;
-  s.style.display = (s.style.display === "block") ? "none" : "block";
-}
-
 function filterDueTable() {
-  const input = document.getElementById("dueSearch");
-  if (!input) return;
-
-  const val = input.value.toLowerCase();
   const rows = document.querySelectorAll("#dueTable tr");
+  const filters = document.querySelectorAll(".filter-row input, .filter-row select");
 
   rows.forEach(row => {
-    row.style.display = row.innerText.toLowerCase().includes(val)
-      ? ""
-      : "none";
+    const cells = row.querySelectorAll("td");
+    let visible = true;
+
+    filters.forEach(filter => {
+      const col = filter.dataset.col;
+      const value = filter.value.toLowerCase();
+
+      if (!value) return;
+
+      const cellText = cells[col]?.innerText.toLowerCase() || "";
+
+      if (!cellText.includes(value)) {
+        visible = false;
+      }
+    });
+
+    row.style.display = visible ? "" : "none";
   });
 }
+
 
 
 
