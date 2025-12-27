@@ -1,14 +1,14 @@
 /* ===============================
    GLOBAL
 ================================ */
-html, body {
-  height: 100%;
+body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f4f6f8;
-  overflow: hidden;   /* ✅ page scrollbar band */
-}
 
+  height: 100vh;
+  overflow: hidden;   /* 👈 BAHAR KA SCROLL BAND */
+}
 
 /* ===============================
    HEADER (STICKY)
@@ -17,7 +17,6 @@ html, body {
   background: #0f172a;
   color: white;
   padding: 14px 20px;
-   height: 70px;   /* ✅ ADD THIS */
 
   display: flex;
   align-items: center;
@@ -61,19 +60,19 @@ html, body {
    MAIN
 ================================ */
 main {
-  position: fixed;     /* 🔴 MOST IMPORTANT */
-  top: 70px;           /* header height */
-  bottom: 50px;        /* footer height */
-  left: 0;
-  right: 0;
-
   padding: 20px 30px;
-  overflow-y: auto;    /* ✅ sirf yahin scroll */
-  overflow-x: hidden; /* ❌ right scrollbar band */
 
-  background: #f4f6f8;
+  margin-top: 90px;      /* header height */
+  margin-bottom: 50px;   /* footer height */
+
+  height: calc(100vh - 140px);  /* header + footer */
+  overflow-y: auto;             /* ✅ SCROLL YAHI */
 }
 
+
+h2 {
+  margin-top: 30px;
+}
 
 /* ===============================
    ADD PSV ICON CARD (SMALL)
@@ -525,7 +524,6 @@ button {
   gap: 6px;
 
   white-space: nowrap;       /* 👈 no extra width */
-   cursor: pointer;
 }
 
 /* HOVER EFFECT */
@@ -724,7 +722,7 @@ button {
 
 .qs-card {
   background: white;
-  padding: 20px 22px;
+  padding: 15px;
   border-radius: 8px;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
@@ -743,26 +741,10 @@ button {
 }
 
 /* Color Coding */
-.qs-card.total {
-  background: #eff6ff;
-  border-top: 4px solid #2563eb;
-}
-
-.qs-card.active {
-  background: #ecfdf5;
-  border-top: 4px solid #16a34a;
-}
-
-.qs-card.due {
-  background: #fffbeb;
-  border-top: 4px solid #f59e0b;
-}
-
-.qs-card.overdue {
-  background: #fef2f2;
-  border-top: 4px solid #dc2626;
-}
-
+.qs-card.total { border-top: 4px solid #2563eb; }
+.qs-card.active { border-top: 4px solid #16a34a; }
+.qs-card.due { border-top: 4px solid #f59e0b; }
+.qs-card.overdue { border-top: 4px solid #dc2626; }
 
 /* Mobile */
 @media(max-width: 768px) {
@@ -802,19 +784,15 @@ button {
    FOOTER
 ================================ */
 footer {
-  position: fixed;     /* ✅ FIXED FOOTER */
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 50px;        /* ✅ fixed height */
 
   background: #0f172a;
   color: #cbd5e1;
   text-align: center;
-
-  display: flex;       /* vertical center text */
-  align-items: center;
-  justify-content: center;
+  padding: 12px;
 
   z-index: 9999;
 }
