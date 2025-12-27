@@ -63,10 +63,10 @@ body {
    MAIN
 ================================ */
 main {
-  padding: 20px 30px;
+  padding: 64px 30px 20px;  /* 👈 TOP padding increase */
 
-  margin-top: 48px;      /* 👈 header height */
-  margin-bottom: 26px;   /* 👈 footer height */
+  margin-top: 48px;        /* header height */
+  margin-bottom: 26px;     /* footer height */
 
   height: calc(100vh - 48px - 26px);
   overflow-y: auto;
