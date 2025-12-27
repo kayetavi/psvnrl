@@ -65,7 +65,7 @@ main {
   margin-top: 44px;      /* header actual height */
   margin-bottom: 26px;   /* footer actual height */
 
-  height: calc(100vh - 70px); /* 👈 header + footer only */
+ height: calc(100vh - 44px - 26px);  /* 👈 exact formula */
   overflow-y: auto;
 }
 
