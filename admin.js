@@ -95,9 +95,13 @@ function filterDueTable() {
       const cell = cells[col];
       if (!cell) return;
 
-      let cellText = cell.textContent.trim().toLowerCase();
+      // ⭐ MAIN FIX
+      let cellText = cell.textContent
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase();
 
-      // 📅 Date support
+      // 📅 Date filter support
       if (filter.type === "date") {
         cellText = cellText.split(" ")[0];
       }
@@ -110,6 +114,7 @@ function filterDueTable() {
     row.style.display = visible ? "" : "none";
   });
 }
+
 
 /* =====================
    ADD PSV FORM TOGGLE
