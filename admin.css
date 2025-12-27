@@ -402,6 +402,13 @@ button {
   text-align: left;   /* 👈 alignment stable */
 }
 
+.summary-table thead {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+
 /* ===============================
    DUE & OVERDUE COLUMN FILTER
 ================================ */
