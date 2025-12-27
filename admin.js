@@ -119,21 +119,24 @@ function filterDueTable() {
 }
 
 // ===============================
-// TOGGLE DUE & OVERDUE FILTER ROW
+// TOGGLE DUE & OVERDUE FILTERS
 // ===============================
 function toggleDueFilters() {
   const inputs = document.querySelectorAll(
     "#dueFilterRow .due-filter-input"
   );
 
-  inputs.forEach(el => {
-    if (el.style.display === "none") {
-      el.style.display = "block";
-    } else {
-      el.style.display = "none";
-    }
+  if (!inputs.length) {
+    console.error("❌ Due filter inputs not found");
+    return;
+  }
+
+  inputs.forEach(input => {
+    input.style.display =
+      input.style.display === "none" ? "block" : "none";
   });
 }
+
 
 /* =====================
    ADD PSV FORM TOGGLE
