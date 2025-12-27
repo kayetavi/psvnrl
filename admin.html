@@ -156,71 +156,32 @@
 
   <table class="summary-table" id="dueTableMain">
 
-    <thead>
-      <!-- COLUMN HEADERS -->
-      <tr>
-        <th>Tag No</th>
-        <th>Unit</th>
-        <th>Set Pressure</th>
-        <th>Last Inspection</th>
-        <th>Next Inspection</th>
-        <th>Status</th>
-      </tr>
+  <thead>
+  <tr>
+    <th>Tag No</th>
+    <th>Unit</th>
+    <th>Set Pressure</th>
+    <th>Last Inspection</th>
+    <th>Next Inspection</th>
+    <th>Status</th>
+  </tr>
 
-      <!-- 🔍 FILTER ROW -->
-      <tr class="filter-row" id="dueFilterRow">
+  <tr id="dueFilterRow" class="filter-row" style="display:none;">
+    <th><input data-col="0" onkeyup="filterDueTable()"></th>
+    <th><input data-col="1" onkeyup="filterDueTable()"></th>
+    <th><input data-col="2" onkeyup="filterDueTable()"></th>
+    <th><input type="date" data-col="3" onchange="filterDueTable()"></th>
+    <th><input type="date" data-col="4" onchange="filterDueTable()"></th>
+    <th>
+      <select data-col="5" onchange="filterDueTable()">
+        <option value="">All</option>
+        <option value="Due">Due</option>
+        <option value="Overdue">Overdue</option>
+      </select>
+    </th>
+  </tr>
+</thead>
 
-  <th>
-    <input class="due-filter-input"
-           type="text"
-           placeholder="Filter"
-           onkeyup="filterDueTable()"
-           data-col="0">
-  </th>
-
-  <th>
-    <input class="due-filter-input"
-           type="text"
-           placeholder="Filter"
-           onkeyup="filterDueTable()"
-           data-col="1">
-  </th>
-
-  <th>
-    <input class="due-filter-input"
-           type="text"
-           placeholder="Filter"
-           onkeyup="filterDueTable()"
-           data-col="2">
-  </th>
-
-  <th>
-    <input class="due-filter-input"
-           type="date"
-           onchange="filterDueTable()"
-           data-col="3">
-  </th>
-
-  <th>
-    <input class="due-filter-input"
-           type="date"
-           onchange="filterDueTable()"
-           data-col="4">
-  </th>
-
-  <th>
-    <select class="due-filter-input"
-            onchange="filterDueTable()"
-            data-col="5">
-      <option value="">All</option>
-      <option value="Due">Due</option>
-      <option value="Overdue">Overdue</option>
-    </select>
-  </th>
-
-</tr>
-
-    </thead>
 
     <tbody id="dueTable"></tbody>
 
