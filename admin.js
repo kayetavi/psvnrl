@@ -43,30 +43,66 @@ function toggleSettings() {
   if (!menu) return;
 
   const isOpen = menu.style.display === "block";
-
   menu.style.display = isOpen ? "none" : "block";
 
-  // 🔽 SETTINGS BAND HOTE HI ADD PSV SUBMENU & ARROW RESET
+  // 🔽 SETTINGS BAND HOTE HI SAB RESET
   if (isOpen) {
+
+    // Add PSV reset
     const sub = document.getElementById("addPsvSubMenu");
     const addBtn = document.querySelector(".add-psv-item");
-
     if (sub) sub.style.display = "none";
     if (addBtn) addBtn.classList.remove("open");
+
+    // Bulk Edit reset ✅ (YAHI PE HONA CHAHIYE)
+    const bulkSub = document.getElementById("bulkEditSubMenu");
+    const bulkBtn = document.querySelector(".bulk-edit-item");
+    if (bulkSub) bulkSub.style.display = "none";
+    if (bulkBtn) bulkBtn.classList.remove("open");
   }
 }
+
+
 /* =====================
    ADD PSV ACCORDION TOGGLE
 ===================== */
 function toggleAddPSV() {
+
+  // 🔁 Bulk Edit close
+  const bulkSub = document.getElementById("bulkEditSubMenu");
+  const bulkBtn = document.querySelector(".bulk-edit-item");
+  if (bulkSub) bulkSub.style.display = "none";
+  if (bulkBtn) bulkBtn.classList.remove("open");
+
   const submenu = document.getElementById("addPsvSubMenu");
   const addBtn = document.querySelector(".add-psv-item");
   if (!submenu || !addBtn) return;
 
   const isOpen = submenu.style.display === "block";
-
   submenu.style.display = isOpen ? "none" : "block";
   addBtn.classList.toggle("open", !isOpen);
+}
+
+/* =====================
+   BULK EDIT ACCORDION TOGGLE
+===================== */
+function toggleBulkEdit(e) {
+  e.stopPropagation();
+
+  const submenu = document.getElementById("bulkEditSubMenu");
+  const btn = document.querySelector(".bulk-edit-item");
+  if (!submenu || !btn) return;
+
+  const isOpen = submenu.style.display === "block";
+
+  // 🔁 Add PSV close
+  const addSub = document.getElementById("addPsvSubMenu");
+  const addBtn = document.querySelector(".add-psv-item");
+  if (addSub) addSub.style.display = "none";
+  if (addBtn) addBtn.classList.remove("open");
+
+  submenu.style.display = isOpen ? "none" : "block";
+  btn.classList.toggle("open", !isOpen);
 }
 
 /* =====================
