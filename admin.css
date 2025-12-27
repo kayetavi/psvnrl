@@ -553,6 +553,36 @@ button {
    cursor: pointer; 
 }
 
+/* SETTINGS SUBMENU */
+.has-submenu {
+  position: relative;
+  cursor: pointer;
+}
+
+.has-submenu .arrow {
+  float: right;
+  font-size: 12px;
+}
+
+.submenu {
+  display: none;
+  margin-top: 6px;
+  margin-left: 12px;
+  border-left: 2px solid #e5e7eb;
+  padding-left: 8px;
+}
+
+.submenu-item {
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.submenu-item:hover {
+  background: #f1f5f9;
+}
+
 /* HOVER EFFECT */
 .settings-menu div:hover,
 .settings-menu label:hover {
