@@ -75,6 +75,33 @@ async function logout() {
   location.href = "index.html";
 }
 
+// ===============================
+// DUE & OVERDUE SEARCH TOGGLE
+// ===============================
+function toggleDueSearch() {
+  const s = document.getElementById("dueSearch");
+  if (!s) return;
+  s.style.display = (s.style.display === "block") ? "none" : "block";
+}
+
+function filterDueTable() {
+  const input = document.getElementById("dueSearch");
+  if (!input) return;
+
+  const val = input.value.toLowerCase();
+  const rows = document.querySelectorAll("#dueTable tr");
+
+  rows.forEach(row => {
+    row.style.display = row.innerText.toLowerCase().includes(val)
+      ? ""
+      : "none";
+  });
+}
+
+
+
+
+
 /* =====================
    ADD PSV FORM TOGGLE
 ===================== */
