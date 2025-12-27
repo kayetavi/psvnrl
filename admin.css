@@ -7,7 +7,8 @@ body {
   background: #f4f6f8;
 
   height: 100vh;
-  overflow: hidden;   /* 👈 BAHAR KA SCROLL BAND */
+  overflow-x: hidden;   /* ✅ sirf sideways band */
+  overflow-y: visible; /* ✅ tooltip allow */
 }
 
 /* ===============================
@@ -31,6 +32,7 @@ body {
   z-index: 9999;
 
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    overflow: visible;  /* ✅ tooltip visible */
 }
 
 
