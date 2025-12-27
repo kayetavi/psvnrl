@@ -582,6 +582,24 @@ button {
 .submenu-item:hover {
   background: #f1f5f9;
 }
+/* ===============================
+   ADD PSV ARROW ROTATE
+================================ */
+.add-psv-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-psv-item .arrow {
+  transition: transform 0.3s ease;
+  font-size: 12px;
+}
+
+/* when open */
+.add-psv-item.open .arrow {
+  transform: rotate(90deg);
+}
 
 /* HOVER EFFECT */
 .settings-menu div:hover,
