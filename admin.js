@@ -43,24 +43,30 @@ function toggleSettings() {
   if (!menu) return;
 
   const isOpen = menu.style.display === "block";
+
   menu.style.display = isOpen ? "none" : "block";
 
-  // 🔥 settings close hone par Add PSV bhi close
+  // 🔽 SETTINGS BAND HOTE HI ADD PSV SUBMENU & ARROW RESET
   if (isOpen) {
     const sub = document.getElementById("addPsvSubMenu");
+    const addBtn = document.querySelector(".add-psv-item");
+
     if (sub) sub.style.display = "none";
+    if (addBtn) addBtn.classList.remove("open");
   }
 }
-
 /* =====================
    ADD PSV ACCORDION TOGGLE
 ===================== */
 function toggleAddPSV() {
   const submenu = document.getElementById("addPsvSubMenu");
-  if (!submenu) return;
+  const addBtn = document.querySelector(".add-psv-item");
+  if (!submenu || !addBtn) return;
 
-  submenu.style.display =
-    submenu.style.display === "block" ? "none" : "block";
+  const isOpen = submenu.style.display === "block";
+
+  submenu.style.display = isOpen ? "none" : "block";
+  addBtn.classList.toggle("open", !isOpen);
 }
 
 /* =====================
