@@ -130,11 +130,12 @@ function toggleDueFilters() {
   }
 
   if (row.style.display === "none" || row.style.display === "") {
-    row.style.display = "table-row";
+    row.style.display = "table-row";   // ✅ IMPORTANT
   } else {
     row.style.display = "none";
   }
 }
+
 
 
 /* =====================
