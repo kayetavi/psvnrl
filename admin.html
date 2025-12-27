@@ -20,12 +20,14 @@
 <!-- ================= HEADER ================= -->
 <header class="main-header">
   <div class="header-left">
-    <img
+   <img
   src="images/nrl-logo.png"
   class="logo"
   style="cursor:pointer"
+  data-tooltip="Go to Dashboard"
   onclick="resetToOverview()"
 >
+
 
   </div>
 
@@ -35,7 +37,12 @@
 
   <!-- ⚙️ SETTINGS -->
 <div class="settings-wrapper">
-  <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+  <button
+  class="settings-btn"
+  data-tooltip="Settings"
+  onclick="toggleSettings()"
+>⚙️</button>
+
 
   <div id="settingsMenu" class="settings-menu" style="display:none;">
 
@@ -92,7 +99,12 @@
     <p id="qsTotal">0</p>
   </div>
 
-  <div class="qs-card active" onclick="filterByStatus('OK')">
+  <div
+  class="qs-card active"
+  data-tooltip="Active PSV"
+  onclick="filterByStatus('OK')"
+>
+
     <h4>Active PSV</h4>
     <p id="qsActive">0</p>
   </div>
@@ -142,7 +154,11 @@
     <div class="card">
       <h3>PSV Units Overview</h3>
       <div class="unit-chart-box">
-        <canvas id="unitChart"></canvas>
+        <canvas
+  id="unitChart"
+  data-tooltip="Click unit to view PSV list"
+></canvas>
+
       </div>
     </div>
 
