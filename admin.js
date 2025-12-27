@@ -119,13 +119,13 @@ function filterDueTable() {
 }
 
 function toggleDueFilters() {
-  const row = document.getElementById("dueFilterRow");
-  if (!row) return;
-
-  row.style.display =
-    row.style.display === "none" ? "table-row" : "none";
+  document
+    .querySelectorAll("#dueFilterRow .due-filter-input")
+    .forEach(el => {
+      el.style.display =
+        el.style.display === "none" ? "block" : "none";
+    });
 }
-
 
 
 /* =====================
