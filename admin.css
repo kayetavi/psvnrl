@@ -13,7 +13,7 @@ body {
 .main-header {
   background: #0f172a;
   color: white;
-  padding: 8px 20px;
+  padding: 14px 20px;
 
   display: flex;
   align-items: center;
@@ -50,7 +50,7 @@ body {
   display: flex;        /* ⚙️ + Logout same line */
   align-items: center;  /* vertically center */
   gap: 10px;            /* dono ke beech space */
-  margin-right: 40px;   /* pura group left aayega */
+  margin-right: 20px;   /* pura group left aayega */
 }
 
 /* ===============================
@@ -58,7 +58,7 @@ body {
 ================================ */
 main {
   padding: 20px 30px;
-  margin-top: 70px;
+  margin-top: 90px;
   min-height: calc(100vh - 120px);
 }
 
@@ -261,6 +261,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+#unitChart {
+  display: block;   /* 👈 yahin add karna hai */
 }
 
 
