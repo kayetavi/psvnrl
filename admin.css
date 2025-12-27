@@ -792,16 +792,17 @@ button {
    FOOTER
 ================================ */
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-
+  height: 26px;                 /* 👈 aur chhota */
   background: #0f172a;
   color: #cbd5e1;
-  text-align: center;
-  padding: 6px 10px;
 
-  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 11px;              /* 👈 text small */
+  line-height: 1;
+
+  padding: 0 8px;               /* 👈 extra gap hatao */
 }
 
