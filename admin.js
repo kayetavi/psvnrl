@@ -97,14 +97,20 @@ function filterDueTable() {
 
       let cellText = cell.innerText.trim().toLowerCase();
 
-      // 📅 Date support
+      // 📅 DATE — exact match
       if (filter.type === "date") {
         cellText = cellText.split(" ")[0];
+        if (cellText !== value) show = false;
       }
 
-      // 🔥 STATUS FIX (badge / span issue)
-      if (!cellText.includes(value)) {
-        show = false;
+      // 🔥 STATUS COLUMN — EXACT MATCH ONLY
+      else if (col === 5) {
+        if (cellText !== value) show = false;
+      }
+
+      // 🔍 TEXT FILTER — includes OK
+      else {
+        if (!cellText.includes(value)) show = false;
       }
     });
 
